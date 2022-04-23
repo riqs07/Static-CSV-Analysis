@@ -4,16 +4,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class CSVReader {
+public class CarReader implements CSVReader {
 
-    public static void main(String[] args) {
-
+    // Reads File and Outputs and into an Array List
+    @Override
+    public void read(String filepath){
         /// Read CSV File
         /// Map them to java car objects
         /// then read + output just car objects
 
 
-        String file = "./txtFiles/.txt";
+        String file = filepath;
 
         // Init Reader Object
         BufferedReader reader = null;
@@ -62,6 +63,15 @@ public class CSVReader {
                 e.printStackTrace();
             }
         }
-
     }
+
+
+    public static void main(String[] args) {
+
+        CarReader c = new CarReader();
+
+        c.read("./txt/cars.txt");
+    }
+
+
 }

@@ -1,2 +1,5 @@
-package PACKAGE_NAME;public interface CSVReader {
+public interface CSVReader {
+
+    void read(String filepath);
+
 }
