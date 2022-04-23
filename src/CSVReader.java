@@ -1,49 +1,61 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class CSVReader {
 
     public static void main(String[] args) {
 
+        /// Read CSV File
+        /// Map them to java car objects
+        /// then read + output just car objects
 
 
-        // Find Relative File path of file you want to read
-        String file = "./txtFiles/cars.csv";
+        String file = "./txtFiles/cars.txt";
 
         // Init Reader Object
         BufferedReader reader = null;
         String line = "";
 
+
+        ArrayList<Car> cars = new ArrayList<>();
+
         try {
 
-            // feed reader the selected file
-            reader = new BufferedReader(new FileReader(file) );
+            reader = new BufferedReader(new FileReader(file));
 
-            // while there are more lines read the line
-            while ((line = reader.readLine()) != null){
+            while ((line = reader.readLine()) != null) {
 
 
-                /// separate values by ,
+                /// Puts each line into a new row array
+                /// map array to a cars object
+
                 String[] row = line.split(",");
+                if (row[0].equalsIgnoreCase("make"))
+                    continue;
 
+                String make = row[0];
+                String model = row[1];
+                String year = row[2];
+                String miles = row[3];
 
-                // print each item in the row and format
-                for (String item : row){
-                    System.out.printf("%-10s",item );
-                }
-
-                // go to a new line when at the end of the current row
-                System.out.println();
+                cars.add(new Car(make,model,year,miles));
             }
 
-        } catch (Exception e){
-            // handle exception
+            /// Sort using our custom comparator in car class
+
+            Collections.sort(cars);
+
+
+            System.out.println(cars);
+
+
+        } catch (Exception e) {
             e.printStackTrace();
 
-        }
-finally {
-            // close reader
+        } finally {
             try {
                 reader.close();
             } catch (IOException e) {
