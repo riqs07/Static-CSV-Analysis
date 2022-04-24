@@ -12,7 +12,8 @@ public class SuiteRunner {
 
     static int count = 0;
     static ArrayList<String> testSuite = new ArrayList<>();
-    static ArrayList<String> states = new ArrayList<>();
+    static ArrayList<String> stateOptions = new ArrayList<>();
+    static ArrayList<String> cities = new ArrayList<>();
 
 
     public static void main(String[] args)  throws Exception{
@@ -34,14 +35,25 @@ public class SuiteRunner {
         // if match found then print cities in that file
 
 
-        for (int i = 0; i < testSuite.size(); i++) {
-            fileReader.read("./txt/state/" + testSuite.get(i));
+        ArrayList<String> singleCityList = new ArrayList<>();
 
+        try {
+
+            for (int i = 0; i < testSuite.size(); i++) {
+
+              singleCityList = fileReader.run("./txt/state/" + testSuite.get(i));
+              cities.addAll(singleCityList);
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
         }
 
-        System.out.println(testSuite);
 
 
+
+
+        System.out.println(cities);
 
 
     }
@@ -95,7 +107,7 @@ public class SuiteRunner {
 
             // ADD File to list
             count++;
-            states.add(String.valueOf(path.getFileName()));
+            stateOptions.add(String.valueOf(path.getFileName()));
         }
 
 
