@@ -5,29 +5,43 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 
+//// SOMEONE i am feeding int state and not the lines
+// need more time figuinrg out recursion
 public class SuiteRunner {
+
+
+    static int count = 0;
+    static ArrayList<String> testSuite = new ArrayList<>();
+    static ArrayList<String> states = new ArrayList<>();
+
+
     public static void main(String[] args)  throws Exception{
-        SmokeReader s = new SmokeReader();
 
-        ArrayList<String> locations = new ArrayList<>();
-        locations = s.run("./txt/Smoke.txt");
+        SmokeReader fileReader = new SmokeReader();
 
-        // use whatver is in the locations array list to go find file
-        // then use apporrite reader to find next file
-        // all the way down until we can see the car lot
+        // turn smoke file into arraylist
+       testSuite = fileReader.run("./txt/Smoke.txt");
 
-        //need to find text file based on whatevr i rea d
+       //  dig into next level aka State
+       Path currentPath = Paths.get("./txt/state");
+
+        // GO TO Directory and find all files in there and add no array list
+        directoryToArrayList(currentPath);
 
 
+        // for each item in states list
+        // find which ones match in state directory
+        // if match found then print cities in that file
 
 
-        // find current working directory
+        for (int i = 0; i < testSuite.size(); i++) {
+            fileReader.read("./txt/state/" + testSuite.get(i));
 
-        Path currentPath = Paths.get(System.getProperty("user.dir"));
+        }
 
-        listDir(currentPath,0);
+        System.out.println(testSuite);
 
-        /// recursion
+
 
 
     }
@@ -54,9 +68,53 @@ public class SuiteRunner {
         } else {
             // if not a directory ie a normal file
             // print it
+
+
             System.out.println(spacesForDepth(depth) + "--" + path.getFileName());
         }
     }
+
+
+    public static void directoryToArrayList(Path path) throws Exception {
+
+
+        // turns a CSV To Array list,
+        BasicFileAttributes attr = Files.readAttributes(path,BasicFileAttributes.class);
+
+        if (attr.isDirectory()){
+            // Drill Down if directory
+            DirectoryStream<Path> paths = Files.newDirectoryStream(path);
+
+
+            for (Path p : paths) {
+                directoryToArrayList(p);
+            }
+
+
+        } else {
+
+            // ADD File to list
+            count++;
+            states.add(String.valueOf(path.getFileName()));
+        }
+
+
+
+    }
+
+
+    public static void fileToArrayList(Path p) throws Exception{
+
+    }
+
+
+
+
+
+
+
+
+
 
     public static String spacesForDepth(int depth){
         StringBuilder builder = new StringBuilder();

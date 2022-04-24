@@ -1,3 +1,2 @@
-north-carolina,
-california,
-new-york,
+south-carolina.txt,
+alabama.txt,

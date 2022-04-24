@@ -1,0 +1,4 @@
+charleston,
+columbia,
+rock-hill,
+clemson
