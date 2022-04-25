@@ -80,23 +80,29 @@ public class SuiteRunner {
 
 
         ArrayList<Car> singleDealerInventory = new ArrayList<>();
+        CarMapper carMapper = new CarMapper();
+
 
         for (int k =0; k < dealers.size(); k++){
             ///check if the file exists if it does
             // map it to car object
             // carmapper can track ovarall stats
 
-            CarMapper carMapper = new CarMapper();
 
          singleDealerInventory =  carMapper.run(("./txt/dealerships/" + dealers.get(k) + ".txt"));
             if (singleDealerInventory != null){
                 inventory.addAll(singleDealerInventory);
+
+                System.out.println("---> " + dealers.get(k) + " Inventory: " + carMapper.count(singleDealerInventory));
             }
         }
 
 
+        // have something to run analysis on the list of cars
+        //
 
-        System.out.println(inventory);
+
+
     }
 
 

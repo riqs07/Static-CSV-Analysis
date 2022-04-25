@@ -43,7 +43,7 @@ public class SmokeReader implements CSVReader {
 
         }   catch (Exception e) {
 // Alert
-            System.out.println(filepath + "  | File was not found. Are you sure it exists? Did you type it correctly? | Msg from Smoke Reader");
+//            System.out.println(filepath + "  | File was not found. Are you sure it exists? Did you type it correctly? | Msg from Smoke Reader");
 
         return null;
     }

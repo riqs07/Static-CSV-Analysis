@@ -87,7 +87,7 @@ public class CarMapper implements CSVReader {
         } catch (Exception e) {
 //            e.printStackTrace();
             // Alert
-            System.out.println(filepath + "  | File was not found. Are you sure it exists? Did you type it correctly? | Msg from Car Mapper");
+//            System.out.println(filepath + "  | File was not found. Are you sure it exists? Did you type it correctly? | Msg from Car Mapper");
 
 
             return null;
@@ -119,6 +119,12 @@ public class CarMapper implements CSVReader {
 
 
         return cars;
+    }
+
+    public long count(ArrayList<Car> cars){
+      long count =  cars.stream().count();
+
+        return count;
     }
 
 
