@@ -35,7 +35,7 @@ public class SmokeReader implements CSVReader {
         BufferedReader reader;
         String line;
 
-        ArrayList<String> locations = new ArrayList<>();
+        ArrayList<String> items = new ArrayList<>();
 
         try {
             reader = new BufferedReader(new FileReader(filepath));
@@ -44,7 +44,7 @@ public class SmokeReader implements CSVReader {
 
                 String[] row = line.split(",");
 
-                locations.add(row[0]);
+                items.add(row[0]);
             }
 
 
@@ -52,7 +52,7 @@ public class SmokeReader implements CSVReader {
             e.printStackTrace();
         }
 
-        return locations;
+        return items;
     }
 
     public static void main(String[] args) {

@@ -14,17 +14,18 @@ public class SuiteRunner {
     static ArrayList<String> testSuite = new ArrayList<>();
     static ArrayList<String> stateOptions = new ArrayList<>();
     static ArrayList<String> cities = new ArrayList<>();
+    static ArrayList<String> dealers = new ArrayList<>();
 
 
-    public static void main(String[] args)  throws Exception{
+    public static void main(String[] args)  throws Exception {
 
         SmokeReader fileReader = new SmokeReader();
 
         // turn smoke file into arraylist
-       testSuite = fileReader.run("./txt/Smoke.txt");
+        testSuite = fileReader.run("./txt/Smoke.txt");
 
-       //  dig into next level aka State
-       Path currentPath = Paths.get("./txt/state");
+        //  dig into next level aka State
+        Path currentPath = Paths.get("./txt/state");
 
         // GO TO Directory and find all files in there and add no array list
         directoryToArrayList(currentPath);
@@ -34,32 +35,46 @@ public class SuiteRunner {
         // find which ones match in state directory
         // if match found then print cities in that file
 
-
         ArrayList<String> singleCityList = new ArrayList<>();
 
-        try {
+        // Outputs all cities in Given state(s)
 
-            for (int i = 0; i < testSuite.size(); i++) {
 
-              singleCityList = fileReader.run("./txt/state/" + testSuite.get(i));
-              cities.addAll(singleCityList);
-            }
+        for (int i = 0; i < testSuite.size(); i++) {
 
-        } catch (Exception e){
-            e.printStackTrace();
+            singleCityList = fileReader.run("./txt/state/" + testSuite.get(i));
+            cities.addAll(singleCityList);
+
+            /// Finds all Dealearships in given city
+
+
         }
 
 
+        /// ootu put all dealers in given city
+        ArrayList<String> singleCityDealers = new ArrayList<>();
 
 
+        for (int j = 0; j < cities.size(); j++) {
 
-        System.out.println(cities);
+            // see if this city is in the cities folder
+            try {
+
+                singleCityDealers = fileReader.run(("./txt/cities/" + cities.get(j) + ".txt"));
+            } catch (Exception e) {
+
+                //?? exceptions still not working want it to skip over it it fines error
+                System.out.println("file not found ");
+                return;
+            }
 
 
+            dealers.addAll(singleCityDealers);
+        }
+
+
+        System.out.println(dealers);
     }
-
-
-
 
     public static void listDir(Path path, int depth) throws Exception {
 
@@ -115,14 +130,6 @@ public class SuiteRunner {
     }
 
 
-    public static void fileToArrayList(Path p) throws Exception{
-
-    }
-
-
-
-
-
 
 
 
@@ -136,4 +143,5 @@ public class SuiteRunner {
 
         return builder.toString();
     }
+
 }

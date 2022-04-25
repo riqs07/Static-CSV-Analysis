@@ -1,5 +1,5 @@
 san-fransisco,
 san-diego,
 los-angelos,
-sacramento.
+sacramento,
 san-jose,
