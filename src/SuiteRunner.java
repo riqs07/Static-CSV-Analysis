@@ -15,6 +15,7 @@ public class SuiteRunner {
     static ArrayList<String> stateOptions = new ArrayList<>();
     static ArrayList<String> cities = new ArrayList<>();
     static ArrayList<String> dealers = new ArrayList<>();
+    static ArrayList<Car> inventory = new ArrayList<>();
 
 
     public static void main(String[] args)  throws Exception {
@@ -67,57 +68,37 @@ public class SuiteRunner {
         ArrayList<String> singleCityDealers = new ArrayList<>();
 
 
-
         for (int j = 0; j < cities.size(); j++) {
 
-
-            try {
-                singleCityDealers = fileReader.run(("./txt/cities/" + cities.get(j) + ".txt"));
-                if (singleCityDealers != null){
-                    dealers.addAll(singleCityDealers);
-
-                }
-
-                if (singleCityList == null){
-                    System.out.println("okkk ");
-                }
-
-            } catch (Exception e){
+            singleCityDealers = fileReader.run(("./txt/cities/" + cities.get(j) + ".txt"));
+            if (singleCityDealers != null){
+                dealers.addAll(singleCityDealers);
 
             }
-
-
 
         }
 
 
-        System.out.println(dealers);
-    }
+        ArrayList<Car> singleDealerInventory = new ArrayList<>();
 
-    public static void listDir(Path path, int depth) throws Exception {
+        for (int k =0; k < dealers.size(); k++){
+            ///check if the file exists if it does
+            // map it to car object
+            // carmapper can track ovarall stats
 
+            CarMapper carMapper = new CarMapper();
 
-        BasicFileAttributes attr = Files.readAttributes(path,BasicFileAttributes.class);
-
-        // If its a directory, list every file inside files , and travese down recursivly
-        if (attr.isDirectory()){
-            DirectoryStream<Path> paths = Files.newDirectoryStream(path);
-
-            System.out.println(spacesForDepth(depth) + "-> " + path.getFileName());
-
-            for (Path p : paths) {
-                listDir(p, depth + 1);
+         singleDealerInventory =  carMapper.run(("./txt/dealerships/" + dealers.get(k) + ".txt"));
+            if (singleDealerInventory != null){
+                inventory.addAll(singleDealerInventory);
             }
-
-
-        } else {
-            // if not a directory ie a normal file
-            // print it
-
-
-            System.out.println(spacesForDepth(depth) + "--" + path.getFileName());
         }
+
+
+
+        System.out.println(inventory);
     }
+
 
 
     public static void directoryToArrayList(Path path) throws Exception {
@@ -149,17 +130,5 @@ public class SuiteRunner {
 
 
 
-
-
-
-
-    public static String spacesForDepth(int depth){
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < depth ; i++) {
-            builder.append("  ");
-        }
-
-        return builder.toString();
-    }
 
 }

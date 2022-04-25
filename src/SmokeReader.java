@@ -42,12 +42,11 @@ public class SmokeReader implements CSVReader {
             reader = new BufferedReader(new FileReader(filepath));
 
         }   catch (Exception e) {
-
+// Alert
             System.out.println(filepath + "  | File was not found. Are you sure it exists? Did you type it correctly? | Msg from Smoke Reader");
+
         return null;
     }
-
-
 
             while ((line = reader.readLine()) != null){
 
@@ -55,9 +54,6 @@ public class SmokeReader implements CSVReader {
 
                 items.add(row[0]);
             }
-
-
-
 
         return items;
     }
