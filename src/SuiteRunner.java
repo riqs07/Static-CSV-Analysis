@@ -42,8 +42,20 @@ public class SuiteRunner {
 
         for (int i = 0; i < testSuite.size(); i++) {
 
-            singleCityList = fileReader.run("./txt/state/" + testSuite.get(i));
-            cities.addAll(singleCityList);
+
+            try {
+                singleCityList = fileReader.run("./txt/state/" + testSuite.get(i));
+                if (singleCityList != null){
+                    cities.addAll(singleCityList);
+                }
+
+                if (singleCityList == null){
+                    System.out.println("okkk ");
+                }
+
+            } catch (Exception e){
+
+            }
 
             /// Finds all Dealearships in given city
 
@@ -55,21 +67,27 @@ public class SuiteRunner {
         ArrayList<String> singleCityDealers = new ArrayList<>();
 
 
+
         for (int j = 0; j < cities.size(); j++) {
 
-            // see if this city is in the cities folder
+
             try {
-
                 singleCityDealers = fileReader.run(("./txt/cities/" + cities.get(j) + ".txt"));
-            } catch (Exception e) {
+                if (singleCityDealers != null){
+                    dealers.addAll(singleCityDealers);
 
-                //?? exceptions still not working want it to skip over it it fines error
-                System.out.println("file not found ");
-                return;
+                }
+
+                if (singleCityList == null){
+                    System.out.println("okkk ");
+                }
+
+            } catch (Exception e){
+
             }
 
 
-            dealers.addAll(singleCityDealers);
+
         }
 
 

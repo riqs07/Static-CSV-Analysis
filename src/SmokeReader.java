@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SmokeReader implements CSVReader {
@@ -30,7 +31,7 @@ public class SmokeReader implements CSVReader {
 
 
     // Reads file and delivers info for next level Reader
-    public ArrayList<String> run(String filepath){
+    public ArrayList<String> run(String filepath) throws IOException {
 
         BufferedReader reader;
         String line;
@@ -40,6 +41,14 @@ public class SmokeReader implements CSVReader {
         try {
             reader = new BufferedReader(new FileReader(filepath));
 
+        }   catch (Exception e) {
+
+            System.out.println(filepath + "  | File was not found. Are you sure it exists? Did you type it correctly? | Msg from Smoke Reader");
+        return null;
+    }
+
+
+
             while ((line = reader.readLine()) != null){
 
                 String[] row = line.split(",");
@@ -48,9 +57,7 @@ public class SmokeReader implements CSVReader {
             }
 
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
         return items;
     }
