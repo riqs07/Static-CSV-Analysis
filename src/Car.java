@@ -5,20 +5,20 @@ public class Car implements Comparable {
     String Model;
     String year;
     String miles;
+    String price;
 
-
-    public Car(String Make,String Model,String year,String miles){
+    public Car(String Make,String Model,String year,String miles,String price){
 
         this.Make = Make;
         this.Model = Model;
         this.year = year;
         this.miles = miles;
+        this.price = price;
 
     }
 
     public static void main(String[] args) {
-        Car betsy = new Car("Honda","Accord","2003","230000");
-        System.out.println(betsy);
+
     }
 
 

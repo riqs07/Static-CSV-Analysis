@@ -43,12 +43,12 @@ public class SuiteRunner {
             }
         }
 
-        for (String dealer : dealers) {
 
+        for (String dealer : dealers) {
             singleDealerInventory = carMapper.run(("./txt/dealerships/" + dealer + ".txt"));
             if (singleDealerInventory != null) {
                 inventory.addAll(singleDealerInventory);
-                System.out.println("---> " + dealer + " Inventory: " + carMapper.count(singleDealerInventory));
+                System.out.println("---> " + dealer + " Inventory: " + carMapper.count(singleDealerInventory) + " -- Miles Avg:" + carMapper.avgMiles(singleDealerInventory)  + " -- Price Avg:" + carMapper.avgPrice(singleDealerInventory));
             }
         }
 

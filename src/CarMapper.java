@@ -40,8 +40,9 @@ public class CarMapper implements CSVReader {
                 String model = row[1];
                 String year = row[2];
                 String miles = row[3];
+                String price = row[4];
 
-                cars.add(new Car(make, model, year, miles));
+                cars.add(new Car(make, model, year, miles,price));
             }
 
             /// Sort using our custom comparator in car class
@@ -102,8 +103,9 @@ public class CarMapper implements CSVReader {
             String model = row[1];
             String year = row[2];
             String miles = row[3];
+            String price = row[4];
 
-            cars.add(new Car(make, model, year, miles));
+            cars.add(new Car(make, model, year, miles,price));
         }
 
 
@@ -118,6 +120,45 @@ public class CarMapper implements CSVReader {
         return count;
     }
 
+
+    public long avgMiles(ArrayList<Car> cars){
+
+        long sum = 0;
+        long count =0;
+
+        for(Car car:cars){
+
+            sum += Integer.parseInt(car.miles);
+            count++;
+        }
+
+
+        if (count == 0){
+            return sum/1;
+        }
+
+        return sum/count;
+    }
+
+
+    public long avgPrice(ArrayList<Car> cars){
+
+        long sum = 0;
+        long count =0;
+
+        for(Car car:cars){
+
+            sum += Integer.parseInt(car.price);
+            count++;
+        }
+
+
+        if (count == 0){
+            return sum/1;
+        }
+
+        return sum/count;
+    }
 
     public static void main(String[] args) {
 

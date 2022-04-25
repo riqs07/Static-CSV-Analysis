@@ -1,3 +1,0 @@
-honda,civic,2010,150000,
-honda,civic,2011,100000,
-toyota,corolla,2019,10000,
