@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class SmokeReader implements CSVReader {
 
-    // Reads file and outputs to console.
     @Override
     public void read(String filepath) {
 
@@ -29,8 +28,6 @@ public class SmokeReader implements CSVReader {
         }
     }
 
-
-    // Reads file and delivers info for next level Reader
     public ArrayList<String> run(String filepath) throws IOException {
 
         BufferedReader reader;

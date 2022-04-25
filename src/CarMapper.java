@@ -6,7 +6,6 @@ import java.util.Collections;
 
 public class CarMapper implements CSVReader {
 
-    // Reads File and Outputs and into an Array List
     @Override
     public void read(String filepath) {
         /// Read CSV File
@@ -66,15 +65,10 @@ public class CarMapper implements CSVReader {
     }
 
     public ArrayList<Car> run(String filepath) throws IOException {
-        /// Read CSV File
-        /// Map them to java car objects
-        /// then read + output just car objects
-
 
         String file = filepath;
 
-        // Init Reader Object
-        BufferedReader reader = null;
+        BufferedReader reader;
         String line = "";
 
 
@@ -112,11 +106,8 @@ public class CarMapper implements CSVReader {
             cars.add(new Car(make, model, year, miles));
         }
 
-        /// Sort using our custom comparator in car class
 
         Collections.sort(cars);
-
-
 
         return cars;
     }
