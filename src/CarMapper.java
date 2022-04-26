@@ -115,9 +115,8 @@ public class CarMapper implements CSVReader {
     }
 
     public long count(ArrayList<Car> cars){
-      long count =  cars.stream().count();
 
-        return count;
+        return cars.size();
     }
 
 
@@ -159,6 +158,45 @@ public class CarMapper implements CSVReader {
 
         return sum/count;
     }
+
+    public ArrayList<Integer> analyzeList(ArrayList<Car> cars){
+
+
+        ArrayList<Integer> listStats = new ArrayList<>();
+
+        Integer priceSum = 0;
+        Integer milesSum = 0;
+        Integer count = 0;
+
+        for(Car car:cars){
+
+            milesSum += Integer.parseInt(car.miles);
+            priceSum += Integer.parseInt(car.price);
+            count++;
+        }
+
+        if (count == 0){
+            return null;
+        }
+
+        listStats.add(milesSum/count);
+        listStats.add(priceSum/count);
+
+
+        /// maybe this should be a map but like as  to be content aware and not a random list of numbers
+        /// but like as a pogram and in terms of getting it done
+        /// having it just be an array like this is quick and dirty
+        /// may even keep it as a string but that may be a bridge to far
+
+
+
+        return listStats;
+    };
+
+    //same as the averages but only loops thru once and analayzes all at the same time
+    // Return type ?
+    // array of string ans
+
 
     public static void main(String[] args) {
 
