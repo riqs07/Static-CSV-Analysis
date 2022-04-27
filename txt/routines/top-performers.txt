@@ -1,3 +1,4 @@
 charlotte,
 raleigh,
 new-york-city,
+san-diego,

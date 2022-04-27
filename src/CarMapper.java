@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class CarMapper implements CSVReader {
+public class CarMapper  {
 
-    @Override
     public void read(String filepath) {
         /// Read CSV File
         /// Map them to java car objects
