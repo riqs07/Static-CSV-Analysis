@@ -1,101 +1,133 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SuiteRunner {
 
 
-    static ArrayList<String> testSuite = new ArrayList<>();
-    static ArrayList<String> testSteps = new ArrayList<>();
-    static ArrayList<String> functionalTestSteps = new ArrayList<>();
-    static ArrayList<Car> inventory = new ArrayList<>();
 
-    /// can make runner aware of all pojo java objects o
-
-    static String currentTestStep= "";
-    static String currentFunctionalStep = "";
-
-
-
-    public static void main(String[] args)  throws Exception {
+    public static void run(String filepath) throws IOException {
 
         SmokeReader fileReader = new SmokeReader();
         CarMapper carMapper = new CarMapper();
 
+        ArrayList<String> testSuite;
 
+        ArrayList<String> functionalSteps = new ArrayList<>();
+        ArrayList<String> functionalDictionary = new ArrayList<>();
 
-        ArrayList<String> citiesInState;
-        ArrayList<String> dealersInCity;
-        ArrayList<Car> singleDealerInventory;
+        ArrayList<String> currentFuncStepList;
+        ArrayList<String> currentAtomStepList;
+        ArrayList<Car> atomData;
 
+        String currentTestStep= "";
 
-        testSuite = fileReader.run("./txt/Smoke.txt");
+        String currentFunctionalStep = "";
+        String currentAtom = "";
 
+        ArrayList<Car> inventory = new ArrayList<>();
+
+        testSuite = fileReader.run(filepath);
 
         // Get Test steps from Origin
         for (String step : testSuite) {
             currentTestStep = step;
-            citiesInState = fileReader.run("./txt/state/" + step);
+            currentFuncStepList = fileReader.run("./txt/testSteps/" + step);
 
-                if (citiesInState != null) {
-                    testSteps.addAll(citiesInState);
-                }
+
+            if (currentFuncStepList != null) {
+                functionalSteps.addAll(currentFuncStepList);
+            }
+
+            // FOR EACH STEP IN TEST SUITE AKA STATE
+            // RUN STEP BEFORE MOVING ON TO NEXT STEP
 
         }
 
+        int count = 0;
+        int sum = 0;
 
-        // really need one to dig down at a time and start again at the top
-        // rather then reading because thats a lot of loops mane
-        //
-
-
-        for (String functionalStep : testSteps) {
-
-            currentFunctionalStep = functionalStep;
+        int foo = 0;
 
 
-            dealersInCity = fileReader.run(("./txt/cities/" + functionalStep + ".txt"));
+        ////// FUNCTIONAL STEP LEVEL //////
+        for (String functionalStep : functionalSteps) {
+
+            // Reads Atom Data File
+            currentAtomStepList = fileReader.run(("./txt/functionalSteps/" + functionalStep + ".txt"));
+
+            if (currentAtomStepList != null) {
+                functionalDictionary.addAll(currentAtomStepList);
 
 
 
-            if (dealersInCity != null) {
-                functionalTestSteps.addAll(dealersInCity);
+                //// ATOM STEP LEVEL ////
+                for (String atom : currentAtomStepList){
+
+                    // Maps Atom to Workable POJO
+
+                    atomData = carMapper.run(("./txt/atoms/" + atom + ".txt"));
+
+                    if (atomData != null){
+                        // go thru each file and compile stats
+                        // pass stats up on level
+                        foo = carMapper.analyzeList2(atomData);
+
+
+                        // Bubble FStep Info from atom so
+                    }
+
+                }
             }
 
 
 
 
+
+
+
+
+            // LIST of POJO Car objects
+//            if (singleDealerInventory != null) {
+//                inventory.addAll(singleDealerInventory);
+////                System.out.println("---> " + atom + " Inventory: " + carMapper.count(singleDealerInventory) + " --> Miles Avg:" + carMapper.avgMiles(singleDealerInventory)  + " --> Price Avg: $" + carMapper.avgPrice(singleDealerInventory));
+////                System.out.println(functionalDictionary + " " + currentTestStep);
+//////                singleInventoryStats = carMapper.analyzeList(singleDealerInventory);
+//
+//
+//            }
+
+
+
+
+
         }
-
-        // maybe need to do nested array??? so i have access to the current city and print time
-        /// or can make it global or something like that
-        /// just need to have asces to multple tears of objects
-        // so at print time it cann be content aware of where stats are coming from
-
 
         ArrayList<Integer> singleInventoryStats ;
 
-//        for (String dealer : babySteps) {
-//            singleDealerInventory = carMapper.run(("./txt/dealerships/" + dealer + ".txt"));
-//            if (singleDealerInventory != null) {
+        for (String functionalTestStep : functionalDictionary) {
+            atomData = carMapper.run(("./txt/atoms/" + functionalTestStep + ".txt"));
+            if (atomData != null) {
 //                inventory.addAll(singleDealerInventory);
-////                System.out.println("---> " + dealer + " Inventory: " + carMapper.count(singleDealerInventory) + " --> Miles Avg:" + carMapper.avgMiles(singleDealerInventory)  + " --> Price Avg: $" + carMapper.avgPrice(singleDealerInventory));
-//                System.out.println(currentBabyStep + " " + currentTestStep);
-////                singleInventoryStats = carMapper.analyzeList(singleDealerInventory);
-//
-//                if (singleDealerInventory != null){
-//
-//
-//
-//
-//                }
-//            }
-//        }
+//                System.out.println("---> " + functionalTestStep + " Inventory: " + carMapper.count(singleDealerInventory) + " --> Miles Avg:" + carMapper.avgMiles(singleDealerInventory)  + " --> Price Avg: $" + carMapper.avgPrice(singleDealerInventory));
+//                System.out.println(functionalDictionary + " " + currentTestStep);
+//                singleInventoryStats = carMapper.analyzeList(singleDealerInventory);
+
+                if (atomData != null){
+
+                }
+            }
+        }
 
 
-        /// at end of test step level give mini report of state wide level
-        // eventually add sorting
-        // --> california inventory: 55 --> Miles Avg --> Price Avg
+
+    }
+
+    public static void main(String[] args)  throws Exception {
 
 
+        SuiteRunner s = new SuiteRunner();
+
+        s.run("./txt/testSuites/Smoke.txt");
 
 
     }
