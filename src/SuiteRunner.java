@@ -10,9 +10,9 @@ public class SuiteRunner {
         SmokeReader fileReader = new SmokeReader();
         CarMapper carMapper = new CarMapper();
 
-        ArrayList<String> testSuite;
+        ArrayList<String> suite;
 
-        ArrayList<String> testSteps = new ArrayList<>();
+        ArrayList<String> routines = new ArrayList<>();
         ArrayList<String> functionalDictionary = new ArrayList<>();
 
         ArrayList<String> currentFuncStepList;
@@ -20,32 +20,62 @@ public class SuiteRunner {
         ArrayList<Car> atomData;
 
 
-
-
-        String currentTestStep= "";
+        String currentRoutine;
         String currentFunctionalStep = "";
         String currentAtom = "";
 
         ArrayList<Car> inventory = new ArrayList<>();
 
 
+        suite = fileReader.run(filepath);
 
-
-
-        testSuite = fileReader.run(filepath);
-
-        System.out.println(">>> Getting Tests");
+        System.out.println(">>> Getting Routines");
         // Get Test steps from Origin
-        for (String step : testSuite) {
-            currentTestStep = step;
-            currentFuncStepList = fileReader.run("./txt/testSteps/" + step);
+        for (String routine : suite) {
+            currentRoutine = routine;
 
+            // Check if in Routines File
+            currentFuncStepList = fileReader.run("./txt/routines/" + routine + ".txt");
 
             if (currentFuncStepList != null) {
-                testSteps.addAll(currentFuncStepList);
+                routines.addAll(currentFuncStepList);
             }
 
-            System.out.println(currentTestStep);
+            /// if it is null check to see if they exist in the next level down
+            /// if they do add if not then dont
+
+            if (currentFuncStepList == null) {
+                currentAtomStepList = fileReader.run("./txt/functionalSteps/" + routine + ".txt");
+
+//                routines.addAll(currentFuncStepList);
+// if there is a list of atoms
+                    // map to car
+
+
+
+                    if (currentAtomStepList != null) {
+
+                            for (String atom : currentAtomStepList) {
+                                atomData = carMapper.run(("./txt/atoms/" + atom + ".txt"));
+                                System.out.println(">> A: " + atom);
+                                currentAtom = atom;
+
+                                // Maps Atom to Workable POJO
+
+                                if (atomData != null) {
+
+
+                                }
+                            }
+                        }
+                        System.out.println("<----- CLOSE F STEP ");
+
+
+
+
+            }
+
+            System.out.println(currentRoutine);
         }
 
         int count = 0;
@@ -53,36 +83,40 @@ public class SuiteRunner {
 
         int foo = 0;
 
-        System.out.println(">>> Runner Started >>>");
+        System.out.println(">>> Functional Runner Started >>>");
 
         ////// TEST STEP LEVEL //////
 
-        for (String functionalStep : testSteps) {
+        for (String functionalStep : routines) {
 
 
             ////// FUNCTIONAL STEP LEVEL //////
-            System.out.println(">>>>>> F STEP: "  + functionalStep + "  >>");
-            currentFunctionalStep = functionalStep;
 
             // Reads Atom Data File
             currentAtomStepList = fileReader.run(("./txt/functionalSteps/" + functionalStep + ".txt"));
 
+            /// Normal Suite File
+            /// Looking for ROutines
             if (currentAtomStepList != null) {
+                System.out.println(">>>>>> OPEN F STEP: " + functionalStep + "  >>");
+                currentFunctionalStep = functionalStep;
+
                 functionalDictionary.addAll(currentAtomStepList);
 
-                //// ATOM STEP LEVEL ////
-                for (String atom : currentAtomStepList){
 
-                    System.out.println(">> A: "  + atom);
+                //// ATOM STEP LEVEL ////
+                for (String atom : currentAtomStepList) {
+
+                    System.out.println(">> A: " + atom);
                     currentAtom = atom;
 
                     // Maps Atom to Workable POJO
                     atomData = carMapper.run(("./txt/atoms/" + atom + ".txt"));
 
-                    if (atomData != null){
+                    if (atomData != null) {
 
                         // prototype analysis
-                        count = carMapper.analyzeList2(atomData);
+                        count += carMapper.analyzeList2(atomData);
 
                         /// Basically this loop is where I can run analysis on the chosen files
                         /// Analysis can then be streamed in any way after that
@@ -92,10 +126,44 @@ public class SuiteRunner {
                 }
             }
 
-            System.out.println(">>>>>>>>");
+
+            // Routine File
+            /// Looking for steps
+//            if (currentAtomStepList == null) {
+//
+//
+//                currentAtomStepList = fileReader.run("./txt/atoms/" + functionalStep + ".txt");
+//
+////                routines.addAll(currentFuncStepList);
+//
+//                if (currentAtomStepList != null) {
+//
+//                    for (String atom : currentAtomStepList) {
+//
+//                        System.out.println(">> A: " + functionalStep);
+//                        currentAtom = functionalStep;
+//
+//                        // Maps Atom to Workable POJO
+//                        atomData = carMapper.run(("./txt/atoms/" + functionalStep + ".txt"));
+//
+//                        if (atomData != null) {
+//
+//                            // prototype analysis
+//                            count += carMapper.analyzeList2(atomData);
+//
+//                            /// Basically this loop is where I can run analysis on the chosen files
+//                            /// Analysis can then be streamed in any way after that
+//                            /// Also dictionary keeps track of everything
+//
+//                        }
+//                        System.out.println(count);
+//                    }
+//                }
+//                System.out.println("<----- CLOSE F STEP ");
+//            }
+//
+
         }
-
-
     }
 
     public static void main(String[] args)  throws Exception {
@@ -103,7 +171,9 @@ public class SuiteRunner {
 
         SuiteRunner s = new SuiteRunner();
 
-        s.run("./txt/testSuites/Smoke.txt");
+//        s.run("./txt/testSuites/Smoke.txt");
+        s.run("./txt/testSuites/smoke.txt");
+//
 
 
     }
