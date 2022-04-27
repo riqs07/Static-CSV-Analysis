@@ -82,10 +82,6 @@ public class SuiteRunner {
 
 
 
-
-
-
-
             // LIST of POJO Car objects
 //            if (singleDealerInventory != null) {
 //                inventory.addAll(singleDealerInventory);
@@ -104,19 +100,19 @@ public class SuiteRunner {
 
         ArrayList<Integer> singleInventoryStats ;
 
-        for (String functionalTestStep : functionalDictionary) {
-            atomData = carMapper.run(("./txt/atoms/" + functionalTestStep + ".txt"));
-            if (atomData != null) {
-//                inventory.addAll(singleDealerInventory);
-//                System.out.println("---> " + functionalTestStep + " Inventory: " + carMapper.count(singleDealerInventory) + " --> Miles Avg:" + carMapper.avgMiles(singleDealerInventory)  + " --> Price Avg: $" + carMapper.avgPrice(singleDealerInventory));
-//                System.out.println(functionalDictionary + " " + currentTestStep);
-//                singleInventoryStats = carMapper.analyzeList(singleDealerInventory);
-
-                if (atomData != null){
-
-                }
-            }
-        }
+//        for (String functionalTestStep : functionalDictionary) {
+//            atomData = carMapper.run(("./txt/atoms/" + functionalTestStep + ".txt"));
+//            if (atomData != null) {
+////                inventory.addAll(singleDealerInventory);
+////                System.out.println("---> " + functionalTestStep + " Inventory: " + carMapper.count(singleDealerInventory) + " --> Miles Avg:" + carMapper.avgMiles(singleDealerInventory)  + " --> Price Avg: $" + carMapper.avgPrice(singleDealerInventory));
+////                System.out.println(functionalDictionary + " " + currentTestStep);
+////                singleInventoryStats = carMapper.analyzeList(singleDealerInventory);
+//
+//                if (atomData != null){
+//
+//                }
+//            }
+//        }
 
 
 
