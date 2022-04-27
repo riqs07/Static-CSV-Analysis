@@ -3,7 +3,8 @@ import java.util.ArrayList;
 
 public class SuiteRunner {
 
-
+/// Core Version just in case
+    /// shwoing each step but failing because of divide by zero
 
     public static void run(String filepath) throws IOException {
 
@@ -50,16 +51,19 @@ public class SuiteRunner {
 
         }
 
-        int count = 0;
-        int sum = 0;
-
-        int foo = 0;
+        Integer[] foo;
 
         ////// TEST STEP LEVEL //////
 
         for (String functionalStep : testSteps) {
 
             ////// FUNCTIONAL STEP LEVEL //////
+
+            int count = 0;
+            int psum = 0;
+            int msum = 0;
+
+            currentFunctionalStep = functionalStep;
 
             // Reads Atom Data File
             currentAtomStepList = fileReader.run(("./txt/functionalSteps/" + functionalStep + ".txt"));
@@ -68,12 +72,14 @@ public class SuiteRunner {
                 functionalDictionary.addAll(currentAtomStepList);
 
 
+                System.out.println("---> F Step: " + currentFunctionalStep);
 
                 //// ATOM STEP LEVEL ////
                 for (String atom : currentAtomStepList){
 
                     // Maps Atom to Workable POJO
 
+                    currentAtom = atom;
                     atomData = carMapper.run(("./txt/atoms/" + atom + ".txt"));
 
                     if (atomData != null){
@@ -81,11 +87,26 @@ public class SuiteRunner {
                         // pass stats up on level
                         foo = carMapper.analyzeList2(atomData);
 
+                        // def should make an object or key value pair or something
+                        // just cause pulling out random array is fonna look weird
+                        // will be oay for now
+                        count += foo[0];
+                        psum += foo[1];
+                        msum += foo[2];
+
+
+//                        System.out.println(count + " " + "cars");
+                        /// fix / by zero later
+
+
 
                         // Bubble FStep Info from atom so
                     }
 
+                    System.out.println("-----> A Step: " + currentAtom);
                 }
+                System.out.println(functionalStep + " report >>>>" + " Cars " + count + " PAVG: $" + psum/count + " MAVG:" + msum/count );
+
             }
 
 

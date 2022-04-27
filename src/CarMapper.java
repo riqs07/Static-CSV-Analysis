@@ -192,10 +192,10 @@ public class CarMapper implements CSVReader {
 
         return listStats;
     };
- public int analyzeList2(ArrayList<Car> cars){
+ public Integer[] analyzeList2(ArrayList<Car> cars){
 
 
-        ArrayList<Integer> listStats = new ArrayList<>();
+        Integer[] listStats = new Integer[3];
 
         Integer priceSum = 0;
         Integer milesSum = 0;
@@ -209,15 +209,15 @@ public class CarMapper implements CSVReader {
         }
 
 
-        if (count == 0){
-            return 1;
-        }
 
-        listStats.add(milesSum/count);
-        listStats.add(priceSum/count);
+        // maybe have list stat object in future
+     // or a map or set idk
+     // for not array will do
+     listStats[0] = count;
+        listStats[1] = milesSum;
+        listStats[2] = priceSum;
 
 
-     System.out.println(count);
 
 
         /// maybe this should be a map but like as  to be content aware and not a random list of numbers
@@ -225,7 +225,7 @@ public class CarMapper implements CSVReader {
         /// having it just be an array like this is quick and dirty
         /// may even keep it as a string but that may be a bridge to far
 
-return 2;
+return listStats;
 
     };
 
