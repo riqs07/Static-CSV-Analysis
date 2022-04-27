@@ -12,7 +12,7 @@ public class SuiteRunner {
 
         ArrayList<String> testSuite;
 
-        ArrayList<String> functionalSteps = new ArrayList<>();
+        ArrayList<String> testSteps = new ArrayList<>();
         ArrayList<String> functionalDictionary = new ArrayList<>();
 
         ArrayList<String> currentFuncStepList;
@@ -26,6 +26,13 @@ public class SuiteRunner {
 
         ArrayList<Car> inventory = new ArrayList<>();
 
+
+
+
+
+
+
+
         testSuite = fileReader.run(filepath);
 
         // Get Test steps from Origin
@@ -35,7 +42,7 @@ public class SuiteRunner {
 
 
             if (currentFuncStepList != null) {
-                functionalSteps.addAll(currentFuncStepList);
+                testSteps.addAll(currentFuncStepList);
             }
 
             // FOR EACH STEP IN TEST SUITE AKA STATE
@@ -48,9 +55,11 @@ public class SuiteRunner {
 
         int foo = 0;
 
+        ////// TEST STEP LEVEL //////
 
-        ////// FUNCTIONAL STEP LEVEL //////
-        for (String functionalStep : functionalSteps) {
+        for (String functionalStep : testSteps) {
+
+            ////// FUNCTIONAL STEP LEVEL //////
 
             // Reads Atom Data File
             currentAtomStepList = fileReader.run(("./txt/functionalSteps/" + functionalStep + ".txt"));
@@ -95,8 +104,9 @@ public class SuiteRunner {
 
 
 
-
         }
+
+        System.out.println(functionalDictionary);
 
         ArrayList<Integer> singleInventoryStats ;
 
