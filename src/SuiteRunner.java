@@ -19,8 +19,10 @@ public class SuiteRunner {
         ArrayList<String> currentAtomStepList;
         ArrayList<Car> atomData;
 
-        String currentTestStep= "";
 
+
+
+        String currentTestStep= "";
         String currentFunctionalStep = "";
         String currentAtom = "";
 
@@ -30,11 +32,9 @@ public class SuiteRunner {
 
 
 
-
-
-
         testSuite = fileReader.run(filepath);
 
+        System.out.println(">>> Getting Tests");
         // Get Test steps from Origin
         for (String step : testSuite) {
             currentTestStep = step;
@@ -45,9 +45,7 @@ public class SuiteRunner {
                 testSteps.addAll(currentFuncStepList);
             }
 
-            // FOR EACH STEP IN TEST SUITE AKA STATE
-            // RUN STEP BEFORE MOVING ON TO NEXT STEP
-
+            System.out.println(currentTestStep);
         }
 
         int count = 0;
@@ -55,11 +53,16 @@ public class SuiteRunner {
 
         int foo = 0;
 
+        System.out.println(">>> Runner Started >>>");
+
         ////// TEST STEP LEVEL //////
 
         for (String functionalStep : testSteps) {
 
+
             ////// FUNCTIONAL STEP LEVEL //////
+            System.out.println(">>>>>> F STEP: "  + functionalStep + "  >>");
+            currentFunctionalStep = functionalStep;
 
             // Reads Atom Data File
             currentAtomStepList = fileReader.run(("./txt/functionalSteps/" + functionalStep + ".txt"));
@@ -67,63 +70,30 @@ public class SuiteRunner {
             if (currentAtomStepList != null) {
                 functionalDictionary.addAll(currentAtomStepList);
 
-
-
                 //// ATOM STEP LEVEL ////
                 for (String atom : currentAtomStepList){
 
-                    // Maps Atom to Workable POJO
+                    System.out.println(">> A: "  + atom);
+                    currentAtom = atom;
 
+                    // Maps Atom to Workable POJO
                     atomData = carMapper.run(("./txt/atoms/" + atom + ".txt"));
 
                     if (atomData != null){
-                        // go thru each file and compile stats
-                        // pass stats up on level
-                        foo = carMapper.analyzeList2(atomData);
 
+                        // prototype analysis
+                        count = carMapper.analyzeList2(atomData);
 
-                        // Bubble FStep Info from atom so
+                        /// Basically this loop is where I can run analysis on the chosen files
+                        /// Analysis can then be streamed in any way after that
+                        /// Also dictionary keeps track of everything
+
                     }
-
                 }
             }
 
-
-
-
-            // LIST of POJO Car objects
-//            if (singleDealerInventory != null) {
-//                inventory.addAll(singleDealerInventory);
-////                System.out.println("---> " + atom + " Inventory: " + carMapper.count(singleDealerInventory) + " --> Miles Avg:" + carMapper.avgMiles(singleDealerInventory)  + " --> Price Avg: $" + carMapper.avgPrice(singleDealerInventory));
-////                System.out.println(functionalDictionary + " " + currentTestStep);
-//////                singleInventoryStats = carMapper.analyzeList(singleDealerInventory);
-//
-//
-//            }
-
-
-
-
+            System.out.println(">>>>>>>>");
         }
-
-        System.out.println(functionalDictionary);
-
-        ArrayList<Integer> singleInventoryStats ;
-
-//        for (String functionalTestStep : functionalDictionary) {
-//            atomData = carMapper.run(("./txt/atoms/" + functionalTestStep + ".txt"));
-//            if (atomData != null) {
-////                inventory.addAll(singleDealerInventory);
-////                System.out.println("---> " + functionalTestStep + " Inventory: " + carMapper.count(singleDealerInventory) + " --> Miles Avg:" + carMapper.avgMiles(singleDealerInventory)  + " --> Price Avg: $" + carMapper.avgPrice(singleDealerInventory));
-////                System.out.println(functionalDictionary + " " + currentTestStep);
-////                singleInventoryStats = carMapper.analyzeList(singleDealerInventory);
-//
-//                if (atomData != null){
-//
-//                }
-//            }
-//        }
-
 
 
     }

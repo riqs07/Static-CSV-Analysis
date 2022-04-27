@@ -217,7 +217,6 @@ public class CarMapper implements CSVReader {
         listStats.add(priceSum/count);
 
 
-     System.out.println(count);
 
 
         /// maybe this should be a map but like as  to be content aware and not a random list of numbers
@@ -225,7 +224,7 @@ public class CarMapper implements CSVReader {
         /// having it just be an array like this is quick and dirty
         /// may even keep it as a string but that may be a bridge to far
 
-return 2;
+return count;
 
     };
 
