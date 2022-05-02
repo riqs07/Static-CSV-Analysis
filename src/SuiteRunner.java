@@ -7,27 +7,8 @@ public class SuiteRunner {
     public void run(String filepath) throws IOException {
 
         SmokeReader fileReader = new SmokeReader();
-        CarMapper carMapper = new CarMapper();
-
-        ArrayList<String> suite;
-
-        ArrayList<String> routines = new ArrayList<>();
-        ArrayList<String> functionalDictionary = new ArrayList<>();
-
-        ArrayList<String> currentFuncStepList;
-        ArrayList<String> currentAtoms;
-        ArrayList<Car> atomData;
-
-
-        String currentRoutine;
-        String currentFunctionalStep = "";
-        String currentAtom = "";
-
-        ArrayList<Car> inventory = new ArrayList<>();
-
 
         String testLevel = fileReader.identifyTestLevel(filepath);
-
 
         switch (testLevel) {
             case "suite":
@@ -46,7 +27,8 @@ public class SuiteRunner {
 
 
     public void runSuiteFileLogic(String filepath, SmokeReader fileReader) throws IOException {
-        System.out.println("<< TEST LEVEL: Suite");
+        System.out.println("<<< TEST LEVEL: Suite");
+        System.out.println(">>> DISPLAYING STEPS >>>");
         ArrayList<String> suite = fileReader.run(filepath);
 
         ArrayList<String> routines = fileReader.getRoutinesFromSuite(suite);
@@ -54,9 +36,26 @@ public class SuiteRunner {
         ArrayList<String> steps = fileReader.getStepsFromRoutines(routines);
 
         ///  maybe arraysist of arraylissts
-        ArrayList<String> atoms = fileReader.getAtomsFromSteps(steps);
 
-        fileReader.turnAtomsIntoReport(atoms);
+        for (String step: steps){
+
+
+            ArrayList<String> atoms = fileReader.getAtomsFromStep(step);
+
+            System.out.println(">>> " + step + " >>>");
+
+            fileReader.turnAtomsIntoReport(atoms);
+        }
+
+
+//        fileReader.turnAtomsIntoReport(atoms);
+
+        // make a loop at step level...
+        // want step to run because each step will have a report
+        // Ask if duplicates okay
+
+        // Still need logic for recursivly searching folders to find in case it gets some bs
+        // which mean i have a reason for that monster loop
 
     }
 

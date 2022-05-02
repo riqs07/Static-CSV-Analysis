@@ -86,8 +86,6 @@ public class SmokeReader implements CSVReader {
 
     public String identifyTestLevel(String filepath){
 
-        System.out.println(filepath);
-
         // Deletes leading ".txt"
         String xx = filepath.substring(6);
         // Deletes trailing /example.txt
@@ -95,10 +93,6 @@ public class SmokeReader implements CSVReader {
 
 
         System.out.println(">>> Getting Test lvl of " + filepath);
-
-
-
-
 
         return level;
     };
@@ -135,7 +129,7 @@ public class SmokeReader implements CSVReader {
 
     public void turnAtomsIntoReport(ArrayList<String> atoms) throws IOException {
         CarMapper carMapper = new CarMapper();
-        System.out.println(atoms);
+
 
         for (String atom : atoms) {
 
@@ -145,14 +139,18 @@ public class SmokeReader implements CSVReader {
             ArrayList<Car> atomData = carMapper.run(("./txt/atoms/" + atom + ".txt"));
 
             if (atomData != null) {
+               long foo = carMapper.avgPrice(atomData);
 
-                // prototype analysis
-                /// Basically this loop is where I can run analysis on the chosen files
-                /// Analysis can then be streamed in any way after that
-                /// Also dictionary keeps track of everything
-
+               if (foo > 0 ){
+                   System.out.println("$" + String.format("%,d", foo)); // outputs 100,000
+               }
+;
             }
+
         }
+
+
+
     };
 
 
