@@ -191,10 +191,14 @@ public class CarMapper  {
 
         return listStats;
     };
- public int analyzeList2(ArrayList<Car> cars){
+
+ public AtomReport analyzeAtom(ArrayList<Car> cars){
 
 
-        ArrayList<Integer> listStats = new ArrayList<>();
+     // this dosent really need to make the object does it?
+     // thic can just analyzse stream and give data points while
+     // level above attaches name to map
+        AtomReport stats = new AtomReport();
 
         Integer priceSum = 0;
         Integer milesSum = 0;
@@ -208,13 +212,15 @@ public class CarMapper  {
         }
 
 
-        if (count == 0){
-            return 1;
+        stats.setCount(count);
+
+        if (count > 0){
+            stats.setMilesAVG(milesSum/count);
+            stats.setPriceAVG(priceSum/count);
         }
 
-        listStats.add(milesSum/count);
-        listStats.add(priceSum/count);
 
+    stats.toString();
 
 
 
@@ -223,7 +229,7 @@ public class CarMapper  {
         /// having it just be an array like this is quick and dirty
         /// may even keep it as a string but that may be a bridge to far
 
-return count;
+return stats;
 
     };
 

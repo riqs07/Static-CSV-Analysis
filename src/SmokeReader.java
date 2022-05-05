@@ -127,22 +127,51 @@ public class SmokeReader implements CSVReader {
         return atoms;
     }
 
+
+    public int getStepReport(ArrayList<String> atoms){
+
+        System.out.println(atoms);
+
+        // turn each atom to report and then aggregrate
+
+        return 2;
+    };
+
     public void turnAtomsIntoReport(ArrayList<String> atoms) throws IOException {
+
+
+        /// Take an atom and turn into a report map
+        /// K: name V: Data
+        // porb not kv but like a set
+        /// { "name": cary,
+        // "priceAvg": 200000,
+        ///  "weightAvg":120000,
+        ///  "milesAVG": 12000,
+        ///  }
+
         CarMapper carMapper = new CarMapper();
 
 
         for (String atom : atoms) {
 
-            System.out.println(">> A: " + atom);
+            System.out.println(">> (A) " + atom);
 
             // Maps Atom to Workable POJO
             ArrayList<Car> atomData = carMapper.run(("./txt/atoms/" + atom + ".txt"));
 
             if (atomData != null) {
+
+                // SOme sort of report obkects that maybe a k,v pair
+                // K: atom V: Data
+                // Then give me a list of report objects that another method can list out
+                // this way i can caompile report object to XML or JSON or CLI
+                // also can learn how to write files
+                // every report saves a log or something or an export xml option
                long foo = carMapper.avgPrice(atomData);
+                carMapper.analyzeAtom(atomData);
 
                if (foo > 0 ){
-                   System.out.println("$" + String.format("%,d", foo)); // outputs 100,000
+//                   System.out.println("$" + String.format("%,d", foo)); // outputs 100,000
                }
 ;
             }

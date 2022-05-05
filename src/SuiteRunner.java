@@ -29,6 +29,8 @@ public class SuiteRunner {
     public void runSuiteFileLogic(String filepath, SmokeReader fileReader) throws IOException {
         System.out.println("<<< TEST LEVEL: Suite");
         System.out.println(">>> DISPLAYING STEPS >>>");
+
+
         ArrayList<String> suite = fileReader.run(filepath);
 
         ArrayList<String> routines = fileReader.getRoutinesFromSuite(suite);
@@ -42,9 +44,14 @@ public class SuiteRunner {
 
             ArrayList<String> atoms = fileReader.getAtomsFromStep(step);
 
-            System.out.println(">>> " + step + " >>>");
-
             fileReader.turnAtomsIntoReport(atoms);
+
+            int foo = fileReader.getStepReport(atoms);
+
+//            System.out.println(">>>>> (S) " + step + " >>>>>");
+
+//            fileReader.turnAtomsIntoReport(atoms);
+
         }
 
 
@@ -57,6 +64,8 @@ public class SuiteRunner {
         // Still need logic for recursivly searching folders to find in case it gets some bs
         // which mean i have a reason for that monster loop
 
+        /// need to figure out what happens if i feed a routine or a step
+        /// lets fix core and then i can see about trying to fix
     }
 
 
@@ -65,7 +74,7 @@ public class SuiteRunner {
 
         SuiteRunner s = new SuiteRunner();
 
-//        s.run("./txt/testSuites/Smoke.txt");
+//        s.run("./txt/suite/east-coast.txt");
         s.run("./txt/suite/smoke.txt");
 //        s.run("./txt/routines/north-carolina.txt");
 //
