@@ -40,17 +40,22 @@ public class SuiteRunner {
         ///  maybe arraysist of arraylissts
 
         for (String step: steps){
+            System.out.println(">>>>> (S) " + step + " >>>>>");
 
 
+            /// for each step get stepreport
+            /// step reoirt us aggregate of atom report arraylist
+            // each atom in step must give and append a report to list
+            // so
             ArrayList<String> atoms = fileReader.getAtomsFromStep(step);
 
-            fileReader.turnAtomsIntoReport(atoms);
+           ArrayList<AtomReport> analyzedAtoms = fileReader.analyzeAtoms(atoms);
 
-            int foo = fileReader.getStepReport(atoms);
 
-//            System.out.println(">>>>> (S) " + step + " >>>>>");
+            StepReport foo = fileReader.getStepReport(analyzedAtoms);
+            // cane set in func or here
+            foo.setName(step);
 
-//            fileReader.turnAtomsIntoReport(atoms);
 
         }
 

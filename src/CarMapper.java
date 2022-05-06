@@ -64,7 +64,7 @@ public class CarMapper  {
         }
     }
 
-    public ArrayList<Car> run(String filepath) throws IOException {
+    public ArrayList<Car> map(String filepath) throws IOException {
 
         String file = filepath;
 
@@ -194,10 +194,10 @@ public class CarMapper  {
 
  public AtomReport analyzeAtom(ArrayList<Car> cars){
 
-
      // this dosent really need to make the object does it?
      // thic can just analyzse stream and give data points while
      // level above attaches name to map
+
         AtomReport stats = new AtomReport();
 
         Integer priceSum = 0;
@@ -211,7 +211,6 @@ public class CarMapper  {
             count++;
         }
 
-
         stats.setCount(count);
 
         if (count > 0){
@@ -219,15 +218,6 @@ public class CarMapper  {
             stats.setPriceAVG(priceSum/count);
         }
 
-
-    stats.toString();
-
-
-
-        /// maybe this should be a map but like as  to be content aware and not a random list of numbers
-        /// but like as a pogram and in terms of getting it done
-        /// having it just be an array like this is quick and dirty
-        /// may even keep it as a string but that may be a bridge to far
 
 return stats;
 

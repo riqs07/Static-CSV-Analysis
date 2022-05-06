@@ -27,6 +27,18 @@ public class SmokeReader implements CSVReader {
         }
     }
 
+    public String identifyTestLevel(String filepath){
+
+        // Deletes leading ".txt"
+        String xx = filepath.substring(6);
+        // Deletes trailing /example.txt
+        String level = xx.split("/")[0];
+
+
+        System.out.println(">>> Getting Test lvl of " + filepath);
+
+        return level;
+    };
 
     public ArrayList<String> getRoutinesFromSuite(ArrayList<String> suite) throws IOException {
 
@@ -74,7 +86,6 @@ public class SmokeReader implements CSVReader {
     }
 
 
-
     public ArrayList<String> getStepsFromRoutine(String routine) throws IOException {
         ArrayList<String> raw = this.run("./txt/routines/" + routine + ".txt");
 
@@ -84,18 +95,6 @@ public class SmokeReader implements CSVReader {
         return  null;
     }
 
-    public String identifyTestLevel(String filepath){
-
-        // Deletes leading ".txt"
-        String xx = filepath.substring(6);
-        // Deletes trailing /example.txt
-        String level = xx.split("/")[0];
-
-
-        System.out.println(">>> Getting Test lvl of " + filepath);
-
-        return level;
-    };
 
 
     public ArrayList<String> getAtomsFromSteps(ArrayList<String> steps) throws IOException {
@@ -127,60 +126,114 @@ public class SmokeReader implements CSVReader {
         return atoms;
     }
 
+    public AtomReport getAtomReport(String atom, CarMapper carMapper) throws IOException {
 
-    public int getStepReport(ArrayList<String> atoms){
+        System.out.println(">> (A) " + atom);
 
-        System.out.println(atoms);
+        AtomReport report = new AtomReport();
 
-        // turn each atom to report and then aggregrate
+        // Maps Atom to Workable POJO
+        ArrayList<Car> atomData = carMapper.map(("./txt/atoms/" + atom + ".txt"));
 
-        return 2;
+        if (atomData != null) {
+
+            report = carMapper.analyzeAtom(atomData);
+
+//            if (report.getCount() > 0 ){
+//                System.out.println("$" + String.format("%,d", report.getPriceAVG())); // outputs 100,000
+//                System.out.println(report);
+//            }
+
+        }
+
+        if (atomData == null) {
+            report.count = 0;
+            report.milesAVG = 0;
+            report.priceAVG = 0;
+        }
+
+
+        report.name = atom;
+        return report;
     };
 
-    public void turnAtomsIntoReport(ArrayList<String> atoms) throws IOException {
+    public ArrayList<AtomReport> analyzeAtoms(ArrayList<String> atoms) throws IOException {
 
 
-        /// Take an atom and turn into a report map
-        /// K: name V: Data
-        // porb not kv but like a set
-        /// { "name": cary,
-        // "priceAvg": 200000,
-        ///  "weightAvg":120000,
-        ///  "milesAVG": 12000,
-        ///  }
+        // step report will take in a arraylist of atom reports to aggregrate
+        // this needs to broken down
+        // core loop which turns 1 atom into report
+        // call that as many times as needed
 
+        // So a func that turns mapped atom to report /// getAtomReport
+        /// call that for each and append to stepReport
+
+        // each time append the report to the main list
+        // one report
+
+        ArrayList<AtomReport> analyzedAtomsList = new ArrayList<>();
         CarMapper carMapper = new CarMapper();
+
+
 
 
         for (String atom : atoms) {
 
-            System.out.println(">> (A) " + atom);
+            AtomReport atomReport = getAtomReport(atom,carMapper);
 
-            // Maps Atom to Workable POJO
-            ArrayList<Car> atomData = carMapper.run(("./txt/atoms/" + atom + ".txt"));
+            atomReport.setName(atom);
+            analyzedAtomsList.add(atomReport);
 
-            if (atomData != null) {
-
-                // SOme sort of report obkects that maybe a k,v pair
-                // K: atom V: Data
-                // Then give me a list of report objects that another method can list out
-                // this way i can caompile report object to XML or JSON or CLI
-                // also can learn how to write files
-                // every report saves a log or something or an export xml option
-               long foo = carMapper.avgPrice(atomData);
-                carMapper.analyzeAtom(atomData);
-
-               if (foo > 0 ){
-//                   System.out.println("$" + String.format("%,d", foo)); // outputs 100,000
-               }
-;
-            }
 
         }
 
+        return analyzedAtomsList;
 
 
     };
+
+
+
+
+    public StepReport getStepReport(ArrayList<AtomReport> atomReports){
+
+        /// can do a lot from here
+        // for now just want aggregrate but really i can do sorting and other stuff
+        // highest lowest etc
+        // they are diffrent objects rn but maybe they can be one?
+
+        int count = 0;
+        int priceTotal = 0;
+        int milesTotal = 0;
+
+        StepReport stepReport = new StepReport();
+
+    for (AtomReport atomReport : atomReports){
+
+        count += atomReport.getCount();
+        priceTotal += atomReport.getPriceAVG();
+        milesTotal += atomReport.getMilesAVG();
+
+    }
+
+    stepReport.setCount(count);
+
+    if (count > 0){
+        stepReport.setPriceAVG(priceTotal/count);
+        stepReport.setMilesAVG(milesTotal/count);
+    } else {
+        stepReport.setPriceAVG(priceTotal/1);
+        stepReport.setMilesAVG(milesTotal/1);
+    }
+
+
+        // turn each atom to report and then aggregrate
+
+
+        return stepReport;
+    };
+
+
 
 
     public void turnAtomsIntoXML(){};
