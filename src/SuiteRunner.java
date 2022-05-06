@@ -35,43 +35,51 @@ public class SuiteRunner {
 
         ArrayList<String> routines = fileReader.getRoutinesFromSuite(suite);
 
-        ArrayList<String> steps = fileReader.getStepsFromRoutines(routines);
+
+
+        ArrayList<StepReport> stepReports = new ArrayList<>();
 
         ///  maybe arraysist of arraylissts
+        ArrayList<RoutineReport> foo = new ArrayList<>();
 
-        for (String step: steps){
-            System.out.println(">>>>> (S) " + step + " >>>>>");
+        for (String routine :routines){
+
+            RoutineReport routineReport = new RoutineReport();
+            ArrayList<String> steps = fileReader.getStepsFromRoutine(routine);
+
+            for (String step: steps){
+                System.out.println(">>>>> (S) " + step + " >>>>>");
+
+                ArrayList<String> atoms = fileReader.getAtomsFromStep(step);
+
+                ArrayList<AtomReport> analyzedAtoms = fileReader.analyzeAtoms(atoms);
 
 
-            /// for each step get stepreport
-            /// step reoirt us aggregate of atom report arraylist
-            // each atom in step must give and append a report to list
-            // so
-            ArrayList<String> atoms = fileReader.getAtomsFromStep(step);
+                StepReport stepReport = fileReader.getStepReport(analyzedAtoms);
+                stepReport.setName(step);
 
-           ArrayList<AtomReport> analyzedAtoms = fileReader.analyzeAtoms(atoms);
+                stepReports.add(stepReport);
+                 routineReport = fileReader.getRoutineReport(stepReports);
+                routineReport.setName(routine);
 
 
-            StepReport foo = fileReader.getStepReport(analyzedAtoms);
-            // cane set in func or here
-            foo.setName(step);
+            }
 
+            foo.add(routineReport);
 
         }
 
+        System.out.println(foo);
 
-//        fileReader.turnAtomsIntoReport(atoms);
 
-        // make a loop at step level...
-        // want step to run because each step will have a report
-        // Ask if duplicates okay
-
-        // Still need logic for recursivly searching folders to find in case it gets some bs
-        // which mean i have a reason for that monster loop
-
-        /// need to figure out what happens if i feed a routine or a step
-        /// lets fix core and then i can see about trying to fix
     }
+
+
+    // Still need logic for recursivly searching folders to find in case it gets some bs
+    // which mean i have a reason for that monster loop
+
+    /// need to figure out what happens if i feed a routine or a step
+    /// lets fix core and then i can see about trying to fix
 
 
     public static void main(String[] args)  throws Exception {

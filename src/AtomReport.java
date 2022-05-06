@@ -1,10 +1,27 @@
 public class AtomReport {
 
     String name;
-    int priceAVG;
-    int milesAVG;
-    int count;
+    int priceAVG =0;
+    int priceSUM =0;
+    int milesAVG =0;
+    int milesSUM =0;
+    int count =0;
 
+    public int getPriceSUM() {
+        return priceSUM;
+    }
+
+    public void setPriceSUM(int priceSUM) {
+        this.priceSUM = priceSUM;
+    }
+
+    public int getMilesSUM() {
+        return milesSUM;
+    }
+
+    public void setMilesSUM(int milesSUM) {
+        this.milesSUM = milesSUM;
+    }
 
     public String getName() {
         return name;

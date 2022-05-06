@@ -216,6 +216,8 @@ public class CarMapper  {
         if (count > 0){
             stats.setMilesAVG(milesSum/count);
             stats.setPriceAVG(priceSum/count);
+            stats.setMilesSUM(milesSum);
+            stats.setPriceSUM(priceSum);
         }
 
 

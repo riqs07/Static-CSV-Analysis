@@ -128,7 +128,7 @@ public class SmokeReader implements CSVReader {
 
     public AtomReport getAtomReport(String atom, CarMapper carMapper) throws IOException {
 
-        System.out.println(">> (A) " + atom);
+//        System.out.println(">> (A) " + atom);
 
         AtomReport report = new AtomReport();
 
@@ -146,12 +146,6 @@ public class SmokeReader implements CSVReader {
 
         }
 
-        if (atomData == null) {
-            report.count = 0;
-            report.milesAVG = 0;
-            report.priceAVG = 0;
-        }
-
 
         report.name = atom;
         return report;
@@ -159,22 +153,8 @@ public class SmokeReader implements CSVReader {
 
     public ArrayList<AtomReport> analyzeAtoms(ArrayList<String> atoms) throws IOException {
 
-
-        // step report will take in a arraylist of atom reports to aggregrate
-        // this needs to broken down
-        // core loop which turns 1 atom into report
-        // call that as many times as needed
-
-        // So a func that turns mapped atom to report /// getAtomReport
-        /// call that for each and append to stepReport
-
-        // each time append the report to the main list
-        // one report
-
         ArrayList<AtomReport> analyzedAtomsList = new ArrayList<>();
         CarMapper carMapper = new CarMapper();
-
-
 
 
         for (String atom : atoms) {
@@ -184,12 +164,9 @@ public class SmokeReader implements CSVReader {
             atomReport.setName(atom);
             analyzedAtomsList.add(atomReport);
 
-
         }
 
         return analyzedAtomsList;
-
-
     };
 
 
@@ -211,8 +188,9 @@ public class SmokeReader implements CSVReader {
     for (AtomReport atomReport : atomReports){
 
         count += atomReport.getCount();
-        priceTotal += atomReport.getPriceAVG();
-        milesTotal += atomReport.getMilesAVG();
+        priceTotal += atomReport.getPriceSUM();
+        milesTotal += atomReport.getMilesSUM();
+        stepReport.atoms.add(atomReport.name);
 
     }
 
@@ -226,14 +204,44 @@ public class SmokeReader implements CSVReader {
         stepReport.setMilesAVG(milesTotal/1);
     }
 
-
         // turn each atom to report and then aggregrate
 
-
+        // porb gonna want to attach atoms to stepReport and ROutine report?
+        // when i return to front end do i want want huge objeect or lots of small ones.
+        // for now will leave alone
         return stepReport;
     };
 
 
+    public RoutineReport getRoutineReport(ArrayList<StepReport> stepReports){
+
+        RoutineReport routineReport = new RoutineReport();
+
+        int priceTotal = 0;
+        int milesTotal = 0;
+        int count = 0;
+
+        for (StepReport stepReport : stepReports){
+            count += stepReport.getCount();
+            priceTotal += stepReport.getPriceAVG();
+            milesTotal += stepReport.getMilesAVG();
+
+
+            routineReport.steps.add(stepReport.name);
+            routineReport.atoms.addAll(stepReport.getAtoms());
+
+        }
+
+
+        routineReport.setCount(count);
+        routineReport.setMilesAVG(milesTotal/stepReports.size());
+        routineReport.setPriceAVG(priceTotal/stepReports.size());
+
+
+
+        return routineReport;
+
+    }
 
 
     public void turnAtomsIntoXML(){};
