@@ -3,9 +3,7 @@ import java.util.ArrayList;
 
 public class SuiteRunner {
 
-
     public void run(String filepath) throws IOException {
-
         SmokeReader fileReader = new SmokeReader();
 
         String testLevel = fileReader.identifyTestLevel(filepath);
@@ -13,6 +11,7 @@ public class SuiteRunner {
         switch (testLevel) {
             case "suite":
                 this.runSuiteFileLogic(filepath, fileReader);
+                break;
             case "steps":
                 System.out.println("Running Step Logic");
                 break;
@@ -27,24 +26,19 @@ public class SuiteRunner {
 
 
     public void runSuiteFileLogic(String filepath, SmokeReader fileReader) throws IOException {
-        System.out.println("<<< TEST LEVEL: Suite");
+        System.out.println("<<< TEST LEVEL IDENTIFIED: SUITE");
         System.out.println(">>> DISPLAYING STEPS >>>");
 
-
         ArrayList<String> suite = fileReader.run(filepath);
-
         ArrayList<String> routines = fileReader.getRoutinesFromSuite(suite);
-
-
 
         ArrayList<StepReport> stepReports = new ArrayList<>();
 
-        ///  maybe arraysist of arraylissts
-        ArrayList<RoutineReport> foo = new ArrayList<>();
+        ArrayList<RoutineReport> suiteReport = new ArrayList<>();
+        RoutineReport routineReport = new RoutineReport();
 
         for (String routine :routines){
 
-            RoutineReport routineReport = new RoutineReport();
             ArrayList<String> steps = fileReader.getStepsFromRoutine(routine);
 
             for (String step: steps){
@@ -54,22 +48,26 @@ public class SuiteRunner {
 
                 ArrayList<AtomReport> analyzedAtoms = fileReader.analyzeAtoms(atoms);
 
-
                 StepReport stepReport = fileReader.getStepReport(analyzedAtoms);
                 stepReport.setName(step);
 
                 stepReports.add(stepReport);
-                 routineReport = fileReader.getRoutineReport(stepReports);
-                routineReport.setName(routine);
-
 
             }
 
-            foo.add(routineReport);
+            routineReport = fileReader.getRoutineReport(stepReports);
 
+            stepReports.removeAll(stepReports);
+
+            routineReport.setName(routine);
+            suiteReport.add(routineReport);
         }
 
-        System.out.println(foo);
+        System.out.println(">>>>> SUITE FILE FINISHED RUNNING >>>>>");
+
+        System.out.println("Would you like to view the report in the console, in the browser, or build a XML file?");
+
+        System.out.println(suiteReport.get(0).getName() + " has " + suiteReport.get(0).getCount() + " cars. The avg price being " + suiteReport.get(0).getPriceAVG());
 
 
     }
