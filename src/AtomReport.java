@@ -6,6 +6,42 @@ public class AtomReport {
     int milesAVG =0;
     int milesSUM =0;
     int count =0;
+    int median = 0;
+    int range = 0;
+    double priceDeviation =0 , milesDeviation =0;
+
+    public int getMedian() {
+        return median;
+    }
+
+    public void setMedian(int median) {
+        this.median = median;
+    }
+
+    public int getRange() {
+        return range;
+    }
+
+    public void setRange(int range) {
+        this.range = range;
+    }
+
+    public double getPriceDeviation() {
+        return priceDeviation;
+    }
+
+    public void setPriceDeviation(double priceDeviation) {
+        this.priceDeviation = priceDeviation;
+    }
+
+    public double getMilesDeviation() {
+        return milesDeviation;
+    }
+
+    public void setMilesDeviation(double milesDeviation) {
+        this.milesDeviation = milesDeviation;
+    }
+
 
     public int getPriceSUM() {
         return priceSUM;

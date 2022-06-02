@@ -6,6 +6,9 @@ public class SuiteRunner {
     public void run(String filepath) throws IOException {
         SmokeReader fileReader = new SmokeReader();
 
+        System.out.println("1. Run Smoke ~ 2. Enter Suite URL ~ 3. Settings");
+        System.out.println("1.Toggle Console Reporting ~ 2. Change output");
+
         String testLevel = fileReader.identifyTestLevel(filepath);
 
         switch (testLevel) {
@@ -69,9 +72,10 @@ public class SuiteRunner {
 
         System.out.println(suiteReport.get(0).getName() + " has " + suiteReport.get(0).getCount() + " cars. The avg price being " + suiteReport.get(0).getPriceAVG());
 
-
     }
 
+
+    // JAX B MARSHALL
 
     // Still need logic for recursivly searching folders to find in case it gets some bs
     // which mean i have a reason for that monster loop

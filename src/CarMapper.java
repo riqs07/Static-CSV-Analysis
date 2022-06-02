@@ -1,8 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 public class CarMapper  {
 
@@ -74,6 +73,13 @@ public class CarMapper  {
 
         ArrayList<Car> cars = new ArrayList<>();
 
+        Map<String,Integer> carMakeStats = new HashMap<>();
+
+
+
+
+
+
         try {
 
             reader = new BufferedReader(new FileReader(file));
@@ -105,11 +111,17 @@ public class CarMapper  {
             String price = row[4];
 
             cars.add(new Car(make, model, year, miles,price));
+
+
+            // check to see if make exists if it does increase count
+            // if not then add to map
+
+            carMakeStats.put(make,1);
+
         }
 
 
         Collections.sort(cars);
-
         return cars;
     }
 
@@ -200,26 +212,80 @@ public class CarMapper  {
 
         AtomReport stats = new AtomReport();
 
-        Integer priceSum = 0;
-        Integer milesSum = 0;
-        Integer count = 0;
+        Integer priceSum = 0, milesSum = 0, count = 0;
+        double priceDeviation = 0, milesDeviation = 0;
 
-        for(Car car:cars){
 
-            milesSum += Integer.parseInt(car.miles);
-            priceSum += Integer.parseInt(car.price);
-            count++;
-        }
+          Collections.sort(cars, Comparator.comparing(Car ::getPriceAsInteger));
 
-        stats.setCount(count);
 
-        if (count > 0){
-            stats.setMilesAVG(milesSum/count);
-            stats.setPriceAVG(priceSum/count);
-            stats.setMilesSUM(milesSum);
-            stats.setPriceSUM(priceSum);
-        }
+     for(Car car:cars){
 
+         milesSum += Integer.parseInt(car.miles);
+         priceSum += Integer.parseInt(car.price);
+         count++;
+     }
+
+
+
+
+
+
+
+//Integer range = cars.get(1).getPriceAsInteger() - cars.get(0).getPriceAsInteger();
+//     System.out.println(range);
+
+
+
+
+
+
+
+//Integer median = 0;
+//
+//if (count % 2 ==1 ){
+//median = count/2;
+//} else {
+//    median = (a[n/2-1]+a[n/2])/2
+//}
+
+
+
+
+
+
+
+        /// keep track of highest value & lowest value // use to get range
+        /// get median price and miles
+     /// use that to get standard deviation
+
+     // sortby price and by rnage
+     /// need comparators
+
+
+
+
+
+
+     for(Car car: cars) {
+         priceDeviation += Math.pow(car.getPriceAsInteger() - (priceSum/count), 2);
+         milesDeviation += Math.pow(car.getMilesAsInteger() - (milesSum/count),2);
+     }
+
+
+    priceDeviation = Math.sqrt(priceDeviation / count) ;
+     milesDeviation = Math.sqrt(milesDeviation / count);
+
+
+     if (count > 0){
+         stats.setMilesAVG(milesSum/count);
+         stats.setPriceAVG(priceSum/count);
+         stats.setCount(count);
+         stats.setMilesSUM(milesSum);
+         stats.setPriceSUM(priceSum);
+         stats.setMilesDeviation(milesDeviation);
+         stats.setPriceDeviation(priceDeviation);
+     }
 
 return stats;
 
