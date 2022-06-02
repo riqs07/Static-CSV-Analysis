@@ -3,8 +3,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-public class CarMapper  {
+public class CarMapper {
 
+    // Raw File Input
     public void read(String filepath) {
         /// Read CSV File
         /// Map them to java car objects
@@ -40,7 +41,7 @@ public class CarMapper  {
                 String miles = row[3];
                 String price = row[4];
 
-                cars.add(new Car(make, model, year, miles,price));
+                cars.add(new Car(make, model, year, miles, price));
             }
 
             /// Sort using our custom comparator in car class
@@ -63,6 +64,7 @@ public class CarMapper  {
         }
     }
 
+    // Map CSV to POJO
     public ArrayList<Car> map(String filepath) throws IOException {
 
         String file = filepath;
@@ -73,11 +75,7 @@ public class CarMapper  {
 
         ArrayList<Car> cars = new ArrayList<>();
 
-        Map<String,Integer> carMakeStats = new HashMap<>();
-
-
-
-
+        Map<String, Integer> carMakeStats = new HashMap<>();
 
 
         try {
@@ -110,13 +108,13 @@ public class CarMapper  {
             String miles = row[3];
             String price = row[4];
 
-            cars.add(new Car(make, model, year, miles,price));
+            cars.add(new Car(make, model, year, miles, price));
 
 
             // check to see if make exists if it does increase count
             // if not then add to map
 
-            carMakeStats.put(make,1);
+            carMakeStats.put(make, 1);
 
         }
 
@@ -125,175 +123,70 @@ public class CarMapper  {
         return cars;
     }
 
-    public long count(ArrayList<Car> cars){
-
-        return cars.size();
-    }
-
-
-    public long avgMiles(ArrayList<Car> cars){
-
-        long sum = 0;
-        long count =0;
-
-        for(Car car:cars){
-
-            sum += Integer.parseInt(car.miles);
-            count++;
-        }
-
-
-        if (count == 0){
-            return sum/1;
-        }
-
-        return sum/count;
-    }
-
-
-    public long avgPrice(ArrayList<Car> cars){
-
-        long sum = 0;
-        long count =0;
-
-        for(Car car:cars){
-
-            sum += Integer.parseInt(car.price);
-            count++;
-        }
-
-
-        if (count == 0){
-            return sum/1;
-        }
-
-        return sum/count;
-    }
-
-    public ArrayList<Integer> analyzeList(ArrayList<Car> cars){
-
-
-        ArrayList<Integer> listStats = new ArrayList<>();
-
-        Integer priceSum = 0;
-        Integer milesSum = 0;
-        Integer count = 0;
-
-        for(Car car:cars){
-
-            milesSum += Integer.parseInt(car.miles);
-            priceSum += Integer.parseInt(car.price);
-            count++;
-        }
-
-        if (count == 0){
-            return null;
-        }
-
-        listStats.add(milesSum/count);
-        listStats.add(priceSum/count);
-
-
-        /// maybe this should be a map but like as  to be content aware and not a random list of numbers
-        /// but like as a pogram and in terms of getting it done
-        /// having it just be an array like this is quick and dirty
-        /// may even keep it as a string but that may be a bridge to far
-
-
-
-        return listStats;
-    };
-
- public AtomReport analyzeAtom(ArrayList<Car> cars){
-
-     // this dosent really need to make the object does it?
-     // thic can just analyzse stream and give data points while
-     // level above attaches name to map
+    // Analyze List of POJO
+    public AtomReport analyzeAtom(ArrayList<Car> cars) {
+        // i mean i guess i canpull the analysis intto seperate funcs but this is ok for now
 
         AtomReport stats = new AtomReport();
 
         Integer priceSum = 0, milesSum = 0, count = 0;
         double priceDeviation = 0, milesDeviation = 0;
+        int median = 0;
 
 
-          Collections.sort(cars, Comparator.comparing(Car ::getPriceAsInteger));
+        Collections.sort(cars, Comparator.comparing(Car::getPriceAsInteger));
 
 
-     for(Car car:cars){
-
-         milesSum += Integer.parseInt(car.miles);
-         priceSum += Integer.parseInt(car.price);
-         count++;
-     }
-
-
+        // Get Sum
+        for (Car car : cars) {
+            milesSum += Integer.parseInt(car.miles);
+            priceSum += Integer.parseInt(car.price);
+            count++;
+        }
 
 
+        // Get standard Deviations
+        for (Car car : cars) {
+            priceDeviation += Math.pow(car.getPriceAsInteger() - (priceSum / count), 2);
+            milesDeviation += Math.pow(car.getMilesAsInteger() - (milesSum / count), 2);
+        }
 
 
+        priceDeviation = Math.sqrt(priceDeviation / count);
+        milesDeviation = Math.sqrt(milesDeviation / count);
 
-//Integer range = cars.get(1).getPriceAsInteger() - cars.get(0).getPriceAsInteger();
-//     System.out.println(range);
+        if (count > 0) {
+            // Get Range
+            int range = cars.get(count - 1).getPriceAsInteger() - cars.get(0).getPriceAsInteger();
 
+            // get median
+            if (count % 2 == 0) {
+                int left = (count / 2) - 1;
+                int right = (count / 2) + 1;
 
+                median = (cars.get(left).getPriceAsInteger() + cars.get(right).getPriceAsInteger()) / 2;
+            } else {
+                median = cars.get(count / 2).getPriceAsInteger();
 
-
-
-
-
-//Integer median = 0;
-//
-//if (count % 2 ==1 ){
-//median = count/2;
-//} else {
-//    median = (a[n/2-1]+a[n/2])/2
-//}
-
-
+            }
 
 
+            // Build Report
+            stats.setMilesAVG(milesSum / count);
+            stats.setPriceAVG(priceSum / count);
+            stats.setCount(count);
+            stats.setMilesSUM(milesSum);
+            stats.setPriceSUM(priceSum);
+            stats.setMilesDeviation(milesDeviation);
+            stats.setPriceDeviation(priceDeviation);
+            stats.setPriceRange(range);
+            stats.setPriceMedian(median);
+        }
 
+        return stats;
 
+    }
 
-        /// keep track of highest value & lowest value // use to get range
-        /// get median price and miles
-     /// use that to get standard deviation
-
-     // sortby price and by rnage
-     /// need comparators
-
-
-
-
-
-
-     for(Car car: cars) {
-         priceDeviation += Math.pow(car.getPriceAsInteger() - (priceSum/count), 2);
-         milesDeviation += Math.pow(car.getMilesAsInteger() - (milesSum/count),2);
-     }
-
-
-    priceDeviation = Math.sqrt(priceDeviation / count) ;
-     milesDeviation = Math.sqrt(milesDeviation / count);
-
-
-     if (count > 0){
-         stats.setMilesAVG(milesSum/count);
-         stats.setPriceAVG(priceSum/count);
-         stats.setCount(count);
-         stats.setMilesSUM(milesSum);
-         stats.setPriceSUM(priceSum);
-         stats.setMilesDeviation(milesDeviation);
-         stats.setPriceDeviation(priceDeviation);
-     }
-
-return stats;
-
-    };
-
-    //same as the averages but only loops thru once and analayzes all at the same time
-    // Return type ?
-    // array of string ans
 
 
     public static void main(String[] args) {

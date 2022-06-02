@@ -1,29 +1,61 @@
 public class AtomReport {
 
     String name;
-    int priceAVG =0;
-    int priceSUM =0;
-    int milesAVG =0;
-    int milesSUM =0;
     int count =0;
-    int median = 0;
-    int range = 0;
+
+    int priceAVG =0 , priceSUM =0, priceMedian = 0, priceRange = 0;
+    int milesAVG =0, milesSUM =0, milesMedian = 0, milesRange = 0;
     double priceDeviation =0 , milesDeviation =0;
+    int minPrice = 0, maxPrice =0;
+    int minMiles = 0, maxMiles = 0;
 
-    public int getMedian() {
-        return median;
+    public int getMinPrice() {
+        return minPrice;
     }
 
-    public void setMedian(int median) {
-        this.median = median;
+    public void setMinPrice(int minPrice) {
+        this.minPrice = minPrice;
     }
 
-    public int getRange() {
-        return range;
+    public int getMaxPrice() {
+        return maxPrice;
     }
 
-    public void setRange(int range) {
-        this.range = range;
+    public void setMaxPrice(int maxPrice) {
+        this.maxPrice = maxPrice;
+    }
+
+    public int getMinMiles() {
+        return minMiles;
+    }
+
+    public void setMinMiles(int minMiles) {
+        this.minMiles = minMiles;
+    }
+
+    public int getMaxMies() {
+        return maxMiles;
+    }
+
+    public void setMaxMies(int maxMies) {
+        this.maxMiles = maxMies;
+    }
+
+
+    public int getPriceMedian() {
+        return priceMedian;
+    }
+
+    public void setPriceMedian(int priceMedian) {
+        this.priceMedian = priceMedian;
+    }
+
+    public int getPriceRange() {
+        return priceRange;
+    }
+
+    public void setPriceRange(int priceRange) {
+        this.priceRange = priceRange;
     }
 
     public double getPriceDeviation() {
