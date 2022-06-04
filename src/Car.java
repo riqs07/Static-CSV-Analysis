@@ -1,5 +1,28 @@
 public class Car implements Comparable {
 
+    public String getMake() {
+        return Make;
+    }
+
+    public void setMake(String make) {
+        Make = make;
+    }
+
+    public String getModel() {
+        return Model;
+    }
+
+    public void setModel(String model) {
+        Model = model;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
 
     String Make;
     String Model;

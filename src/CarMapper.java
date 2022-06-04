@@ -64,7 +64,7 @@ public class CarMapper {
         }
     }
 
-    // Map CSV to POJO
+    // Map CSV to POJOs
     public ArrayList<Car> map(String filepath) throws IOException {
 
         String file = filepath;
@@ -123,9 +123,9 @@ public class CarMapper {
         return cars;
     }
 
-    // Analyze List of POJO
+    // Analyze List of POJOs
     public AtomReport analyzeAtom(ArrayList<Car> cars) {
-        // i mean i guess i canpull the analysis intto seperate funcs but this is ok for now
+        // i mean i guess i canp ull the analysis intto seperate funcs but this is ok for now
 
         AtomReport stats = new AtomReport();
 
@@ -135,6 +135,8 @@ public class CarMapper {
 
 
         Collections.sort(cars, Comparator.comparing(Car::getPriceAsInteger));
+        HashMap<String, Integer> makesMap = new HashMap<>();
+        HashMap<String, Map<String, Integer>> carsMap = new HashMap<>();
 
 
         // Get Sum
@@ -142,8 +144,57 @@ public class CarMapper {
             milesSum += Integer.parseInt(car.miles);
             priceSum += Integer.parseInt(car.price);
             count++;
-        }
 
+
+            // create a hashmap K,V
+            // insert into map if not exists
+            // if does exist increment by one
+            // want to get amount of makes & models
+            // 2 separet maps or nested
+            // eventully x amount of hondas x amount of accord etc
+
+
+            String currentCarMake = car.getMake();
+            String currentCarModel = car.getModel();
+
+
+/// SINGLE MAP BASE , DELETE AFTER COMMIT
+//            if (makesMap.containsKey(currentCarMake)) {
+//                // if already exists
+//                // find value and incrment
+//                int amount = makesMap.get(currentCarMake);
+//                makesMap.put(currentCarMake, amount + 1);
+//            } else {
+//                // else add to map
+//                makesMap.put(currentCarMake, 1);
+//            }
+
+
+
+            if (carsMap.containsKey(currentCarMake)){
+
+                // Make exists , model does, increment
+                if (carsMap.get(currentCarMake).containsKey(currentCarModel)){
+
+                    int amount = carsMap.get(currentCarMake).get(currentCarModel);
+
+                    carsMap.get(currentCarMake).put(currentCarModel,amount + 1);
+
+                }else{
+
+                    // Make exists , model exits, put new
+                    carsMap.get(currentCarMake).put(currentCarModel, 1);
+                }
+
+
+            } else {
+                // Make not exists , place new
+                HashMap<String,Integer> curMap = new HashMap<>();
+                curMap.put(currentCarModel,1);
+                carsMap.put(currentCarMake,curMap);
+            }
+
+        }
 
         // Get standard Deviations
         for (Car car : cars) {
@@ -155,6 +206,8 @@ public class CarMapper {
         priceDeviation = Math.sqrt(priceDeviation / count);
         milesDeviation = Math.sqrt(milesDeviation / count);
 
+
+        // prob need to find a better way to skip empty files
         if (count > 0) {
             // Get Range
             int range = cars.get(count - 1).getPriceAsInteger() - cars.get(0).getPriceAsInteger();
@@ -188,12 +241,11 @@ public class CarMapper {
     }
 
 
-
     public static void main(String[] args) {
 
         CarMapper c = new CarMapper();
 
-        c.read("./txt/cars.txt");
+        c.read("./txt/atoms/san-diego-1.txt");
     }
 
 

@@ -1,6 +1,12 @@
 import java.util.ArrayList;
 
 public class StepReport {
+    String name;
+    int count;
+    int milesAVG;
+    int priceAVG;
+    ArrayList<String> atoms = new ArrayList<>();
+
     @Override
     public String toString() {
         return "StepReport{" +
@@ -42,12 +48,6 @@ public class StepReport {
     public void setPriceAVG(int priceAVG) {
         this.priceAVG = priceAVG;
     }
-
-    String name;
-    int count;
-    int milesAVG;
-    int priceAVG;
-    ArrayList<String> atoms = new ArrayList<>();
 
     public ArrayList<String> getAtoms() {
         return atoms;

@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class AtomReport {
 
     String name;
@@ -8,6 +11,13 @@ public class AtomReport {
     double priceDeviation =0 , milesDeviation =0;
     int minPrice = 0, maxPrice =0;
     int minMiles = 0, maxMiles = 0;
+
+
+    HashMap<String,Integer> makesMap = new HashMap<>();
+    HashMap<String,Integer> modelsMap = new HashMap<>();
+
+    HashMap<String, Map<String,Integer>> carsMap = new HashMap<>();
+
 
     public int getMinPrice() {
         return minPrice;
