@@ -2,11 +2,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SmokeReader implements CSVReader {
+public class ReportBuilder implements CSVReader {
 
     @Override
     public void read(String filepath) {
@@ -139,13 +138,9 @@ public class SmokeReader implements CSVReader {
         ArrayList<Car> atomData = carMapper.map(("./txt/atoms/" + atom + ".txt"));
 
         if (atomData != null) {
-
             report = carMapper.analyzeAtom(atomData);
 
-
         }
-
-
         report.name = atom;
         return report;
     };
@@ -154,7 +149,6 @@ public class SmokeReader implements CSVReader {
 
         ArrayList<AtomReport> AtomReports = new ArrayList<>();
         CarMapper carMapper = new CarMapper();
-
 
         for (String atom : atoms) {
 
@@ -168,15 +162,7 @@ public class SmokeReader implements CSVReader {
         return AtomReports;
     };
 
-
-
-
     public StepReport getStepReport(ArrayList<AtomReport> atomReports){
-
-        /// can do a lot from here
-        // for now just want aggregrate but really i can do sorting and other stuff
-        // highest lowest etc
-        // they are diffrent objects rn but maybe they can be one?
 
         int count = 0;
         int priceTotal = 0;
@@ -195,46 +181,14 @@ public class SmokeReader implements CSVReader {
 
 
         stepReport.atoms.add(atomReport.name);
-        // PROB HAVE A FUNC TO GET MODEL TOTALS AND RETURN SOMETHING LOOP GOING CRAZY RN
-        carMapsList.add(atomReport.getCarsMap());
+        stepReport.atomReports.add(atomReport);
 
+        carMapsList.add(atomReport.getCarLotMap());
 
     }
 
-    /// DELETE AFTER COMMIT?????????????
-        // THIS WAS JUST OVER COMPLICATING IT AS I HAVE TO DIG 3 levels deep
-        // anything with 3 nested loops cant be the right solution not to mention the complextity was a bit much
-        // going to ad it up inside the carmapper and then bubble it up istead
-        // instead of trying to do the calcualtion heree
-
-//    for ( Map carMap : carMapsList){
-//        /// dig into each internal map & iterate
-//        //add all values of keys inside  get that numb back and pair with outer map key
-//        // 4 model x  && 3 model y == 7 tesla
-//
-//        // for each key get value and keep a runnign count
-//
-//        for (String k : carMap.keySet()){
-//
-//        }
-//    }
-
-//        // FOR EACH CAR LOT IN LIST
-//        for (HashMap<String, Map<String,Integer> >map : carMapsList) {
-//            // FOR CAR MODEL MAP
-//            for (Map.Entry<String, Map<String, Integer>> entry : map.entrySet()) {
-//                // FOR EACH MODEL
-//
-//               Collection<Integer> xx = entry.getValue().values();
-//
-//
-//            }
-//        }
-
-
-
     stepReport.setCount(count);
-
+    stepReport.setStepTotalValue(priceTotal);
     if (count > 0){
         stepReport.setPriceAVG(priceTotal/count);
         stepReport.setMilesAVG(milesTotal/count);
@@ -243,11 +197,6 @@ public class SmokeReader implements CSVReader {
         stepReport.setMilesAVG(milesTotal/1);
     }
 
-        // turn each atom to report and then aggregrate
-
-        // porb gonna want to attach atoms to stepReport and ROutine report?
-        // when i return to front end do i want want huge objeect or lots of small ones.
-        // for now will leave alone
         return stepReport;
     };
 

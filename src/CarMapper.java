@@ -5,7 +5,7 @@ import java.util.*;
 
 public class CarMapper {
 
-    // Raw File Input
+    // Raw File Input will be useful for non suite runs
     public void read(String filepath) {
         /// Read CSV File
         /// Map them to java car objects
@@ -126,23 +126,21 @@ public class CarMapper {
     // Analyze List of POJOs
     public AtomReport analyzeAtom(ArrayList<Car> cars) {
         // i mean i guess i canp ull the analysis intto seperate funcs but this is ok for now
+        // 6-5 OKAY OFFICALY THIS METHOD IS WAY TO HUGE NEEDS REFREACTOR
 
         AtomReport stats = new AtomReport();
 
         Integer priceSum = 0, milesSum = 0, count = 0;
         double priceDeviation = 0, milesDeviation = 0;
-        int priceMedian = 0;
-        int milesMedian = 0;
+        int priceMedian = 0, priceMin= 0, priceMax = 0;
+        int milesMedian = 0 ,milesMin = 0, milesMax = 0;
 
-
-        int currentMakeTotal = 0;
-
-        Collections.sort(cars, Comparator.comparing(Car::getPriceAsInteger));
 
         HashMap<String, Map<String, Integer>> carLotMap = new HashMap<>();
-        HashMap<String, Integer> carModelsMap = new HashMap<>();
+        HashMap<String, Integer> carMakesMap = new HashMap<>();
+        HashMap<String,Integer> carModelsMap = new HashMap<>();
 
-
+        Collections.sort(cars, Comparator.comparing(Car::getPriceAsInteger));
 
         // Get Sums & Create Hashmap
         for (Car car : cars) {
@@ -181,30 +179,54 @@ public class CarMapper {
 
         }
 
+        // Create Make & Models Map
 
-        // For each Make in the CarLotMap
         for (String currentMake : carLotMap.keySet()) {
             /// Get all models by that Maker
+
+
             for (String currentModel : carLotMap.get(currentMake).keySet()) {
-                // Start the counter
+
+                int currentModelTotal = 0;
+                // Start the make counter
                 if (carLotMap.get(currentMake).containsKey(currentModel)) {
                     // if make already exists get current total and add onto it
 
-                    currentMakeTotal = carLotMap.get(currentMake).get(currentModel);
 
-                    if (carModelsMap.containsKey(currentMake)) {
+                    /// this is the num of each model so right here i take this number and put it itno model mao
+                    // and just add onto make map
+                    currentModelTotal = carLotMap.get(currentMake).get(currentModel);
+
+                    if (carMakesMap.containsKey(currentMake)) {
                         // get cur value and add to
 
-                        int runningModelTotal = carModelsMap.get(currentMake);
+                        int runningMakeTotal = carMakesMap.get(currentMake);
 
-                        runningModelTotal += currentMakeTotal;
-                        carModelsMap.put(currentMake, runningModelTotal);
+                        runningMakeTotal += currentModelTotal;
+
+                        carMakesMap.put(currentMake, runningMakeTotal);
 
                     } else {
                         // if not exists add to mapp
-                        carModelsMap.put(currentMake, currentMakeTotal);
+                        carMakesMap.put(currentMake, currentModelTotal);
                     }
 
+
+                 ////////////////////////////////////////////////////////////////
+
+                    // Create a Map of just the Model count
+                    if (carModelsMap.containsKey(currentModel)) {
+                        // get cur value and add to
+
+                        int runningModelTotal = 0;
+
+                        runningModelTotal += currentModelTotal;
+                        carModelsMap.put(currentModel, runningModelTotal);
+
+                    } else {
+                        // if not exists add to mapp
+                        carModelsMap.put(currentModel, currentModelTotal);
+                    }
                 }
             }
 
@@ -216,7 +238,6 @@ public class CarMapper {
             priceDeviation += Math.pow(car.getPriceAsInteger() - (priceSum / count), 2);
             milesDeviation += Math.pow(car.getMilesAsInteger() - (milesSum / count), 2);
         }
-
 
         priceDeviation = Math.sqrt(priceDeviation / count);
         milesDeviation = Math.sqrt(milesDeviation / count);
@@ -244,7 +265,6 @@ public class CarMapper {
 
             }
 
-
             // Build Report
             stats.setMilesAVG(milesSum / count);
             stats.setPriceAVG(priceSum / count);
@@ -256,13 +276,31 @@ public class CarMapper {
             stats.setPriceRange(priceRange);
             stats.setPriceMedian(priceMedian);
             stats.setMilesMedian(milesMedian);
-//            stats.setMilesRange(milesRange);
-            stats.setCarsMap(carLotMap);
+            stats.setLotValue(priceSum);
+            stats.setCarLotMap(carLotMap);
 
-//            stats.setMaxMiles();
-//            stats.setMinMiles();
-//            stats.setMaxPrice();
-//            stats.setMinPrice();
+            stats.setCarMakesMap(carMakesMap);
+            stats.setCarModelsMap(carModelsMap);
+
+
+            stats.setMaxPrice(cars.get(cars.size() - 1).getPriceAsInteger());
+            stats.setMinPrice(cars.get(0).getPriceAsInteger());
+
+
+
+            // Sort by Miles i feel like theres better way to do this but oh well for now
+            /// Cars is currently soreted by price can grab 1st and last elements
+            // then just sort and do the same for miles
+
+            Collections.sort(cars, Comparator.comparing(Car::getMilesAsInteger));
+            stats.setMaxMiles(cars.get(cars.size() -1).getMilesAsInteger());
+            stats.setMinMiles(cars.get(0).getMilesAsInteger());
+
+            int milesRange = cars.get(count - 1).getMilesAsInteger() - cars.get(0).getMilesAsInteger();
+
+            stats.setMilesRange(milesRange);
+
+
         }
 
         return stats;

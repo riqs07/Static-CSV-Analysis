@@ -1,12 +1,56 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class StepReport {
     String name;
     int count;
     int milesAVG;
     int priceAVG;
+    int stepTotalValue;
+
+    public ArrayList<HashMap<String, Integer>> getCarMakesMaps() {
+        return carMakesMaps;
+    }
+
+    public void setCarMakesMaps(ArrayList<HashMap<String, Integer>> carMakesMaps) {
+        this.carMakesMaps = carMakesMaps;
+    }
+
+    public ArrayList<HashMap<String, Integer>> getCarModelsMaps() {
+        return carModelsMaps;
+    }
+
+    public void setCarModelsMaps(ArrayList<HashMap<String, Integer>> carModelsMaps) {
+        this.carModelsMaps = carModelsMaps;
+    }
+
+    // probably just want the aggragrate on the step reoprt
+    // i mean i guess i can attach the maps as well but still
+    // they dont need to be a list here
+    // list can just be used inside of the method to help with the aggregate
+    // esp considering that i am attaching the atom report
+    ArrayList<HashMap<String,Integer>> carMakesMaps = new ArrayList<>();
+    ArrayList<HashMap<String,Integer>> carModelsMaps = new ArrayList<>();
     ArrayList<String> atoms = new ArrayList<>();
     ArrayList<AtomReport> atomReports = new ArrayList<>();
+
+    public int getStepTotalValue() {
+        return stepTotalValue;
+    }
+
+    public void setStepTotalValue(int stepTotalValue) {
+        this.stepTotalValue = stepTotalValue;
+    }
+
+    public ArrayList<AtomReport> getAtomReports() {
+        return atomReports;
+    }
+
+    public void setAtomReports(ArrayList<AtomReport> atomReports) {
+        this.atomReports = atomReports;
+    }
+
+
 
     // total count, "avg car"
     // list of atom report

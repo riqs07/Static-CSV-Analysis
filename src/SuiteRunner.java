@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class SuiteRunner {
 
     public void run(String filepath) throws IOException {
-        SmokeReader fileReader = new SmokeReader();
+        ReportBuilder fileReader = new ReportBuilder();
 
         System.out.println("1. Run Smoke ~ 2. Enter Suite URL ~ 3. Settings");
         System.out.println("1.Toggle Console Reporting ~ 2. Change output");
@@ -28,7 +28,7 @@ public class SuiteRunner {
 
 
 
-    public void runSuiteFileLogic(String filepath, SmokeReader fileReader) throws IOException {
+    public void runSuiteFileLogic(String filepath, ReportBuilder fileReader) throws IOException {
         System.out.println("<<< TEST LEVEL IDENTIFIED: SUITE");
         System.out.println(">>> DISPLAYING STEPS >>>");
 

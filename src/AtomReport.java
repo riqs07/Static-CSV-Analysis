@@ -12,7 +12,39 @@ public class AtomReport {
     int minPrice = 0, maxPrice =0;
     int minMiles = 0, maxMiles = 0;
 
-    HashMap<String, Map<String,Integer>> carsMap = new HashMap<>();
+    HashMap<String, Map<String,Integer>> carLotMap = new HashMap<>();
+    HashMap<String,Integer> carModelsMap = new HashMap<>();
+    HashMap<String,Integer> carMakesMap = new HashMap<>();
+
+    public HashMap<String, Integer> getCarModelsMap() {
+        return carModelsMap;
+    }
+
+    public void setCarModelsMap(HashMap<String, Integer> carModelsMap) {
+        this.carModelsMap = carModelsMap;
+    }
+
+
+    int lotValue =0;
+
+    public HashMap<String, Integer> getCarMakesMap() {
+        return carMakesMap;
+    }
+
+    public void setCarMakesMap(HashMap<String, Integer> carMakesMap) {
+        this.carMakesMap = carMakesMap;
+    }
+
+
+
+    public int getLotValue() {
+        return lotValue;
+    }
+
+    public void setLotValue(int lotValue) {
+        this.lotValue = lotValue;
+    }
+
 
     public int getMilesMedian() {
         return milesMedian;
@@ -38,12 +70,12 @@ public class AtomReport {
         this.maxMiles = maxMiles;
     }
 
-    public HashMap<String, Map<String, Integer>> getCarsMap() {
-        return carsMap;
+    public HashMap<String, Map<String, Integer>> getCarLotMap() {
+        return carLotMap;
     }
 
-    public void setCarsMap(HashMap<String, Map<String, Integer>> carsMap) {
-        this.carsMap = carsMap;
+    public void setCarLotMap(HashMap<String, Map<String, Integer>> carLotMap) {
+        this.carLotMap = carLotMap;
     }
 
 
@@ -78,7 +110,6 @@ public class AtomReport {
     public void setMaxMies(int maxMies) {
         this.maxMiles = maxMies;
     }
-
 
     public int getPriceMedian() {
         return priceMedian;
