@@ -12,11 +12,39 @@ public class AtomReport {
     int minPrice = 0, maxPrice =0;
     int minMiles = 0, maxMiles = 0;
 
-
-    HashMap<String,Integer> makesMap = new HashMap<>();
-    HashMap<String,Integer> modelsMap = new HashMap<>();
-
     HashMap<String, Map<String,Integer>> carsMap = new HashMap<>();
+
+    public int getMilesMedian() {
+        return milesMedian;
+    }
+
+    public void setMilesMedian(int milesMedian) {
+        this.milesMedian = milesMedian;
+    }
+
+    public int getMilesRange() {
+        return milesRange;
+    }
+
+    public void setMilesRange(int milesRange) {
+        this.milesRange = milesRange;
+    }
+
+    public int getMaxMiles() {
+        return maxMiles;
+    }
+
+    public void setMaxMiles(int maxMiles) {
+        this.maxMiles = maxMiles;
+    }
+
+    public HashMap<String, Map<String, Integer>> getCarsMap() {
+        return carsMap;
+    }
+
+    public void setCarsMap(HashMap<String, Map<String, Integer>> carsMap) {
+        this.carsMap = carsMap;
+    }
 
 
     public int getMinPrice() {

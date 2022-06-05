@@ -6,6 +6,11 @@ public class StepReport {
     int milesAVG;
     int priceAVG;
     ArrayList<String> atoms = new ArrayList<>();
+    ArrayList<AtomReport> atomReports = new ArrayList<>();
+
+    // total count, "avg car"
+    // list of atom report
+    // combine the maps into one
 
     @Override
     public String toString() {

@@ -2,6 +2,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SmokeReader implements CSVReader {
 
@@ -139,10 +142,6 @@ public class SmokeReader implements CSVReader {
 
             report = carMapper.analyzeAtom(atomData);
 
-//            if (report.getCount() > 0 ){
-//                System.out.println("$" + String.format("%,d", report.getPriceAVG())); // outputs 100,000
-//                System.out.println(report);
-//            }
 
         }
 
@@ -153,7 +152,7 @@ public class SmokeReader implements CSVReader {
 
     public ArrayList<AtomReport> analyzeAtoms(ArrayList<String> atoms) throws IOException {
 
-        ArrayList<AtomReport> analyzedAtomsList = new ArrayList<>();
+        ArrayList<AtomReport> AtomReports = new ArrayList<>();
         CarMapper carMapper = new CarMapper();
 
 
@@ -162,11 +161,11 @@ public class SmokeReader implements CSVReader {
             AtomReport atomReport = getAtomReport(atom,carMapper);
 
             atomReport.setName(atom);
-            analyzedAtomsList.add(atomReport);
+            AtomReports.add(atomReport);
 
         }
 
-        return analyzedAtomsList;
+        return AtomReports;
     };
 
 
@@ -183,6 +182,9 @@ public class SmokeReader implements CSVReader {
         int priceTotal = 0;
         int milesTotal = 0;
 
+        // list of nested hashmaps
+        ArrayList<HashMap<String ,Map<String,Integer>>> carMapsList = new ArrayList();
+
         StepReport stepReport = new StepReport();
 
     for (AtomReport atomReport : atomReports){
@@ -190,9 +192,46 @@ public class SmokeReader implements CSVReader {
         count += atomReport.getCount();
         priceTotal += atomReport.getPriceSUM();
         milesTotal += atomReport.getMilesSUM();
+
+
         stepReport.atoms.add(atomReport.name);
+        // PROB HAVE A FUNC TO GET MODEL TOTALS AND RETURN SOMETHING LOOP GOING CRAZY RN
+        carMapsList.add(atomReport.getCarsMap());
+
 
     }
+
+    /// DELETE AFTER COMMIT?????????????
+        // THIS WAS JUST OVER COMPLICATING IT AS I HAVE TO DIG 3 levels deep
+        // anything with 3 nested loops cant be the right solution not to mention the complextity was a bit much
+        // going to ad it up inside the carmapper and then bubble it up istead
+        // instead of trying to do the calcualtion heree
+
+//    for ( Map carMap : carMapsList){
+//        /// dig into each internal map & iterate
+//        //add all values of keys inside  get that numb back and pair with outer map key
+//        // 4 model x  && 3 model y == 7 tesla
+//
+//        // for each key get value and keep a runnign count
+//
+//        for (String k : carMap.keySet()){
+//
+//        }
+//    }
+
+//        // FOR EACH CAR LOT IN LIST
+//        for (HashMap<String, Map<String,Integer> >map : carMapsList) {
+//            // FOR CAR MODEL MAP
+//            for (Map.Entry<String, Map<String, Integer>> entry : map.entrySet()) {
+//                // FOR EACH MODEL
+//
+//               Collection<Integer> xx = entry.getValue().values();
+//
+//
+//            }
+//        }
+
+
 
     stepReport.setCount(count);
 

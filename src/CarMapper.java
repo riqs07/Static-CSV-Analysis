@@ -131,70 +131,85 @@ public class CarMapper {
 
         Integer priceSum = 0, milesSum = 0, count = 0;
         double priceDeviation = 0, milesDeviation = 0;
-        int median = 0;
+        int priceMedian = 0;
+        int milesMedian = 0;
 
+
+        int currentMakeTotal = 0;
 
         Collections.sort(cars, Comparator.comparing(Car::getPriceAsInteger));
-        HashMap<String, Integer> makesMap = new HashMap<>();
-        HashMap<String, Map<String, Integer>> carsMap = new HashMap<>();
+
+        HashMap<String, Map<String, Integer>> carLotMap = new HashMap<>();
+        HashMap<String, Integer> carModelsMap = new HashMap<>();
 
 
-        // Get Sum
+
+        // Get Sums & Create Hashmap
         for (Car car : cars) {
             milesSum += Integer.parseInt(car.miles);
             priceSum += Integer.parseInt(car.price);
             count++;
 
 
-            // create a hashmap K,V
-            // insert into map if not exists
-            // if does exist increment by one
-            // want to get amount of makes & models
-            // 2 separet maps or nested
-            // eventully x amount of hondas x amount of accord etc
-
-
             String currentCarMake = car.getMake();
             String currentCarModel = car.getModel();
 
 
-/// SINGLE MAP BASE , DELETE AFTER COMMIT
-//            if (makesMap.containsKey(currentCarMake)) {
-//                // if already exists
-//                // find value and incrment
-//                int amount = makesMap.get(currentCarMake);
-//                makesMap.put(currentCarMake, amount + 1);
-//            } else {
-//                // else add to map
-//                makesMap.put(currentCarMake, 1);
-//            }
+            // Car Map
+            if (carLotMap.containsKey(currentCarMake)) {
 
+                // Make exists , model exists, increment
+                if (carLotMap.get(currentCarMake).containsKey(currentCarModel)) {
 
+                    int amount = carLotMap.get(currentCarMake).get(currentCarModel);
 
-            if (carsMap.containsKey(currentCarMake)){
+                    carLotMap.get(currentCarMake).put(currentCarModel, amount + 1);
 
-                // Make exists , model does, increment
-                if (carsMap.get(currentCarMake).containsKey(currentCarModel)){
+                } else {
 
-                    int amount = carsMap.get(currentCarMake).get(currentCarModel);
-
-                    carsMap.get(currentCarMake).put(currentCarModel,amount + 1);
-
-                }else{
-
-                    // Make exists , model exits, put new
-                    carsMap.get(currentCarMake).put(currentCarModel, 1);
+                    // Make exists , model not exists, put new
+                    carLotMap.get(currentCarMake).put(currentCarModel, 1);
                 }
 
 
             } else {
                 // Make not exists , place new
-                HashMap<String,Integer> curMap = new HashMap<>();
-                curMap.put(currentCarModel,1);
-                carsMap.put(currentCarMake,curMap);
+                HashMap<String, Integer> currentCarMap = new HashMap<>();
+                currentCarMap.put(currentCarModel, 1);
+                carLotMap.put(currentCarMake, currentCarMap);
             }
 
         }
+
+
+        // For each Make in the CarLotMap
+        for (String currentMake : carLotMap.keySet()) {
+            /// Get all models by that Maker
+            for (String currentModel : carLotMap.get(currentMake).keySet()) {
+                // Start the counter
+                if (carLotMap.get(currentMake).containsKey(currentModel)) {
+                    // if make already exists get current total and add onto it
+
+                    currentMakeTotal = carLotMap.get(currentMake).get(currentModel);
+
+                    if (carModelsMap.containsKey(currentMake)) {
+                        // get cur value and add to
+
+                        int runningModelTotal = carModelsMap.get(currentMake);
+
+                        runningModelTotal += currentMakeTotal;
+                        carModelsMap.put(currentMake, runningModelTotal);
+
+                    } else {
+                        // if not exists add to mapp
+                        carModelsMap.put(currentMake, currentMakeTotal);
+                    }
+
+                }
+            }
+
+        }
+
 
         // Get standard Deviations
         for (Car car : cars) {
@@ -208,18 +223,24 @@ public class CarMapper {
 
 
         // prob need to find a better way to skip empty files
+        // Build Report
         if (count > 0) {
-            // Get Range
-            int range = cars.get(count - 1).getPriceAsInteger() - cars.get(0).getPriceAsInteger();
+            // Get Price Range
+            int priceRange = cars.get(count - 1).getPriceAsInteger() - cars.get(0).getPriceAsInteger();
+//
 
-            // get median
+            // get medians
             if (count % 2 == 0) {
+
                 int left = (count / 2) - 1;
                 int right = (count / 2) + 1;
 
-                median = (cars.get(left).getPriceAsInteger() + cars.get(right).getPriceAsInteger()) / 2;
+                priceMedian = (cars.get(left).getPriceAsInteger() + cars.get(right).getPriceAsInteger()) / 2;
+                milesMedian = (cars.get(left).getPriceAsInteger() + cars.get(right).getPriceAsInteger()) / 2;
+
             } else {
-                median = cars.get(count / 2).getPriceAsInteger();
+                priceMedian = cars.get(count / 2).getPriceAsInteger();
+                milesMedian = cars.get(count / 2).getPriceAsInteger();
 
             }
 
@@ -232,8 +253,16 @@ public class CarMapper {
             stats.setPriceSUM(priceSum);
             stats.setMilesDeviation(milesDeviation);
             stats.setPriceDeviation(priceDeviation);
-            stats.setPriceRange(range);
-            stats.setPriceMedian(median);
+            stats.setPriceRange(priceRange);
+            stats.setPriceMedian(priceMedian);
+            stats.setMilesMedian(milesMedian);
+//            stats.setMilesRange(milesRange);
+            stats.setCarsMap(carLotMap);
+
+//            stats.setMaxMiles();
+//            stats.setMinMiles();
+//            stats.setMaxPrice();
+//            stats.setMinPrice();
         }
 
         return stats;
