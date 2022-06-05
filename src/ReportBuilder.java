@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.summingInt;
+
 public class ReportBuilder implements CSVReader {
 
     @Override
@@ -169,7 +172,9 @@ public class ReportBuilder implements CSVReader {
         int milesTotal = 0;
 
         // list of nested hashmaps
-        ArrayList<HashMap<String ,Map<String,Integer>>> carMapsList = new ArrayList();
+        ArrayList<HashMap<String ,Map<String,Integer>>> carLotsList = new ArrayList();
+        ArrayList<HashMap<String ,Integer>> carMakesList = new ArrayList();
+        ArrayList<HashMap<String ,Integer>> carModelsList = new ArrayList();
 
         StepReport stepReport = new StepReport();
 
@@ -183,10 +188,33 @@ public class ReportBuilder implements CSVReader {
         stepReport.atoms.add(atomReport.name);
         stepReport.atomReports.add(atomReport);
 
-        carMapsList.add(atomReport.getCarLotMap());
+        carLotsList.add(atomReport.getCarLotMap());
+        carMakesList.add(atomReport.getCarMakesMap());
+        carModelsList.add(atomReport.getCarModelsMap());
 
     }
 
+        // Merge Maps
+
+
+    // LOOK MORE INTO STREAMS AND MEETHODS
+        // THIS PRETTY COOL BUT LIKE IDK HOW ITS WOKRING
+        Map<String, Integer> carMakesMasterMap = carMakesList.stream()
+                .flatMap(m -> m.entrySet().stream())
+                .collect(groupingBy(Map.Entry::getKey, summingInt(Map.Entry::getValue)));
+
+
+    Map<String, Integer> carModelsMasterMap = carModelsList.stream()
+                .flatMap(m -> m.entrySet().stream())
+                .collect(groupingBy(Map.Entry::getKey, summingInt(Map.Entry::getValue)));
+
+
+    /// will have to do something specail for the nested map will do later
+        // CAR LOT AGGEGRATIONS GOES HERE
+
+
+
+    /////////////// Build report
     stepReport.setCount(count);
     stepReport.setStepTotalValue(priceTotal);
     if (count > 0){

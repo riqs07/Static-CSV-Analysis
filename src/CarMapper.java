@@ -11,7 +11,6 @@ public class CarMapper {
         /// Map them to java car objects
         /// then read + output just car objects
 
-
         String file = filepath;
 
         // Init Reader Object
@@ -71,12 +70,7 @@ public class CarMapper {
 
         BufferedReader reader;
         String line = "";
-
-
         ArrayList<Car> cars = new ArrayList<>();
-
-        Map<String, Integer> carMakeStats = new HashMap<>();
-
 
         try {
 
@@ -87,16 +81,11 @@ public class CarMapper {
             // Alert
 //            System.out.println(filepath + "  | File was not found. Are you sure it exists? Did you type it correctly? | Msg from Car Mapper");
 
-
             return null;
         }
 
 
         while ((line = reader.readLine()) != null) {
-
-
-            /// Puts each line into a new row array
-            /// map array to a cars object
 
             String[] row = line.split(",");
             if (row[0].equalsIgnoreCase("make"))
@@ -109,12 +98,6 @@ public class CarMapper {
             String price = row[4];
 
             cars.add(new Car(make, model, year, miles, price));
-
-
-            // check to see if make exists if it does increase count
-            // if not then add to map
-
-            carMakeStats.put(make, 1);
 
         }
 
@@ -180,7 +163,6 @@ public class CarMapper {
         }
 
         // Create Make & Models Map
-
         for (String currentMake : carLotMap.keySet()) {
             /// Get all models by that Maker
 

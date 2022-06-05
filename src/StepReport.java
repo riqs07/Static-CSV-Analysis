@@ -29,6 +29,7 @@ public class StepReport {
     // they dont need to be a list here
     // list can just be used inside of the method to help with the aggregate
     // esp considering that i am attaching the atom report
+
     ArrayList<HashMap<String,Integer>> carMakesMaps = new ArrayList<>();
     ArrayList<HashMap<String,Integer>> carModelsMaps = new ArrayList<>();
     ArrayList<String> atoms = new ArrayList<>();
