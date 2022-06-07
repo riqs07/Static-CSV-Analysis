@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class StepReport {
     String name;
@@ -8,19 +9,31 @@ public class StepReport {
     int priceAVG;
     int stepTotalValue;
 
-    public ArrayList<HashMap<String, Integer>> getCarMakesMaps() {
+
+    Map<String,Integer> carMakesMaps = new HashMap<>();
+    Map<String,Integer> carModelsMaps = new HashMap<>();
+    HashMap<String, Map<String, Integer>> carLotMasterMap = new HashMap<>();
+
+    ArrayList<String> atoms = new ArrayList<>();
+    ArrayList<AtomReport> atomReports = new ArrayList<>();
+
+
+    public Map<String, Integer> getCarMakesMaps() {
         return carMakesMaps;
     }
 
-    public void setCarMakesMaps(ArrayList<HashMap<String, Integer>> carMakesMaps) {
+    public void setCarMakesMaps(Map<String, Integer> carMakesMaps) {
         this.carMakesMaps = carMakesMaps;
     }
 
-    public ArrayList<HashMap<String, Integer>> getCarModelsMaps() {
+
+
+
+    public Map<String, Integer> getCarModelsMaps() {
         return carModelsMaps;
     }
 
-    public void setCarModelsMaps(ArrayList<HashMap<String, Integer>> carModelsMaps) {
+    public void setCarModelsMaps(Map<String, Integer> carModelsMaps) {
         this.carModelsMaps = carModelsMaps;
     }
 
@@ -30,10 +43,6 @@ public class StepReport {
     // list can just be used inside of the method to help with the aggregate
     // esp considering that i am attaching the atom report
 
-    ArrayList<HashMap<String,Integer>> carMakesMaps = new ArrayList<>();
-    ArrayList<HashMap<String,Integer>> carModelsMaps = new ArrayList<>();
-    ArrayList<String> atoms = new ArrayList<>();
-    ArrayList<AtomReport> atomReports = new ArrayList<>();
 
     public int getStepTotalValue() {
         return stepTotalValue;

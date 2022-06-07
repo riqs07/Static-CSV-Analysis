@@ -6,8 +6,9 @@ public class AtomReport {
     String name;
     int count =0;
 
-    int priceAVG =0 , priceSUM =0, priceMedian = 0, priceRange = 0;
-    int milesAVG =0, milesSUM =0, milesMedian = 0, milesRange = 0;
+    int priceAVG =0 , priceSUM =0, priceMedian = 0, priceRange = 0, price1stQuartile = 0, price3rdQuartile;
+    int milesAVG =0, milesSUM =0, milesMedian = 0, milesRange = 0, miles1stQuartile = 0, miles3rdQuartile = 0;
+
     double priceDeviation =0 , milesDeviation =0;
     int minPrice = 0, maxPrice =0;
     int minMiles = 0, maxMiles = 0;

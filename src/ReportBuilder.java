@@ -213,18 +213,24 @@ public class ReportBuilder implements CSVReader {
         // CAR LOT AGGEGRATIONS GOES HERE
 
 
+    /////////////// Build report /////////////
 
-    /////////////// Build report
-    stepReport.setCount(count);
-    stepReport.setStepTotalValue(priceTotal);
+        // need to find a better way to deal with empty stuff
     if (count > 0){
+        stepReport.setCount(count);
+        stepReport.setStepTotalValue(priceTotal);
         stepReport.setPriceAVG(priceTotal/count);
         stepReport.setMilesAVG(milesTotal/count);
+        /// car lot aggreate when i get to it
+
+        stepReport.setCarMakesMaps(carMakesMasterMap);
+        stepReport.setCarModelsMaps(carModelsMasterMap);
     } else {
         stepReport.setPriceAVG(priceTotal/1);
         stepReport.setMilesAVG(milesTotal/1);
     }
 
+    // attach name here or at level up
         return stepReport;
     };
 
@@ -232,10 +238,13 @@ public class ReportBuilder implements CSVReader {
     public RoutineReport getRoutineReport(ArrayList<StepReport> stepReports){
 
         RoutineReport routineReport = new RoutineReport();
+        ArrayList<Map<String ,Integer>> carMakesList = new ArrayList();
+        ArrayList<Map<String ,Integer>> carModelsList = new ArrayList();
 
         int priceTotal = 0;
         int milesTotal = 0;
         int count = 0;
+
 
         for (StepReport stepReport : stepReports){
             count += stepReport.getCount();
@@ -246,13 +255,32 @@ public class ReportBuilder implements CSVReader {
             routineReport.steps.add(stepReport.name);
             routineReport.atoms.addAll(stepReport.getAtoms());
 
+
+//            carLotsList.add(atomReport.getCarLotMap());
+            carMakesList.add(stepReport.getCarMakesMaps());
+            carModelsList.add(stepReport.getCarModelsMaps());
         }
 
+
+        Map<String, Integer> carMakesMasterMap = carMakesList.stream()
+                .flatMap(m -> m.entrySet().stream())
+                .collect(groupingBy(Map.Entry::getKey, summingInt(Map.Entry::getValue)));
+
+
+        Map<String, Integer> carModelsMasterMap = carModelsList.stream()
+                .flatMap(m -> m.entrySet().stream())
+                .collect(groupingBy(Map.Entry::getKey, summingInt(Map.Entry::getValue)));
+
+        routineReport.setCarMakesMaps(carMakesMasterMap);
+        routineReport.setCarModelsMaps(carModelsMasterMap);
+
+        /// need to do the car lot aggregrate still
 
         routineReport.setCount(count);
         routineReport.setMilesAVG(milesTotal/stepReports.size());
         routineReport.setPriceAVG(priceTotal/stepReports.size());
-
+        routineReport.setTotalRoutineValue(priceTotal);
+        //
 
 
         return routineReport;
