@@ -154,7 +154,6 @@ public class ReportBuilder implements CSVReader {
         CarMapper carMapper = new CarMapper();
 
         for (String atom : atoms) {
-
             AtomReport atomReport = getAtomReport(atom,carMapper);
 
             atomReport.setName(atom);

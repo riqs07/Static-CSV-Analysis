@@ -235,6 +235,8 @@ public class CarMapper {
             int[] xx = getPriceQuartiles(cars);
             int[] yy = getMilesQuartiles(cars);
             System.out.println(yy);
+            System.out.println(xx);
+            System.out.println("wack niggas only");
 
 
 
@@ -247,8 +249,8 @@ public class CarMapper {
             stats.setMilesDeviation(milesDeviation);
             stats.setPriceDeviation(priceDeviation);
             stats.setPriceRange(priceRange);
-            stats.setPriceMedian(priceMedian);
-            stats.setMilesMedian(milesMedian);
+//            stats.setPriceMedian(priceMedian);
+//            stats.setMilesMedian(milesMedian);
             stats.setLotValue(priceSum);
             stats.setCarLotMap(carLotMap);
 
@@ -283,10 +285,16 @@ public class CarMapper {
     public int[] getPriceQuartiles(ArrayList<Car> cars){
         Collections.sort(cars, Comparator.comparing(Car::getPriceAsInteger));
 
+        // can prob get min-max stats here since i am sorting
+        // and return the 5 number summar
 
+        int min = cars.get(0).getPriceAsInteger();
+
+        int max = cars.get(cars.size() -1).getPriceAsInteger();
         int firstQuartile = 0;
         int median = 0;
         int thirdQuartile = 0;
+
 
         int medianIndex = 0;
 
@@ -326,8 +334,9 @@ public class CarMapper {
             // Reset L+R pointers
             left = (priceLowerHalf.size()/2) -1;
             right = (priceLowerHalf.size()/2) + 1;
-            firstQuartile = priceLowerHalf.get(left).getPriceAsInteger() + priceLowerHalf.get(right).getPriceAsInteger();
+            firstQuartile = (priceLowerHalf.get(left).getPriceAsInteger() + priceLowerHalf.get(right).getPriceAsInteger()) / 2;
         } else {
+            // 1st quartile rounds down needs fixing --> integer division
             firstQuartile = priceLowerHalf.get(priceLowerHalf.size()/2).getPriceAsInteger();
         }
 
@@ -336,18 +345,21 @@ public class CarMapper {
             // Reset L+R pointers
             left = (priceUpperHalf.size()/2) -1;
             right = (priceUpperHalf.size()/2) + 1;
-            thirdQuartile = priceUpperHalf.get(left).getPriceAsInteger() + priceUpperHalf.get(right).getPriceAsInteger();
+            thirdQuartile = (priceUpperHalf.get(left).getPriceAsInteger() + priceUpperHalf.get(right).getPriceAsInteger()) /2 ;
         } else {
             thirdQuartile = priceUpperHalf.get(priceUpperHalf.size()/2).getPriceAsInteger();
         }
 
-        return new int[] {firstQuartile,median,thirdQuartile};
+        return new int[] {min,firstQuartile,median,thirdQuartile,max};
     }
 
     public int[] getMilesQuartiles(ArrayList<Car> cars){
 
         Collections.sort(cars, Comparator.comparing(Car::getMilesAsInteger));
 
+        int min = cars.get(0).getMilesAsInteger();
+
+        int max = cars.get(cars.size() -1).getMilesAsInteger();
         int firstQuartile = 0;
         int median = 0;
         int thirdQuartile = 0;
@@ -377,7 +389,6 @@ public class CarMapper {
              milesUpperHalf = cars.subList(right,count);
 
 
-/// should sepearte median index from median number
         } else {
             medianIndex = count/2;
             median = cars.get(medianIndex).getMilesAsInteger();
@@ -388,13 +399,12 @@ public class CarMapper {
 
 
 
-
         // If lower half is even
         if (milesLowerHalf.size() % 2 == 0){
             // Reset L+R pointers
             left = (milesLowerHalf.size()/2) -1;
             right = (milesLowerHalf.size()/2) + 1;
-            firstQuartile = milesLowerHalf.get(left).getMilesAsInteger() + milesLowerHalf.get(right).getMilesAsInteger();
+            firstQuartile = (milesLowerHalf.get(left).getMilesAsInteger() + milesLowerHalf.get(right).getMilesAsInteger())/2;
         } else {
             firstQuartile = milesLowerHalf.get(milesLowerHalf.size()/2).getMilesAsInteger();
         }
@@ -404,12 +414,12 @@ public class CarMapper {
             // Reset L+R pointers
             left = (milesUpperHalf.size()/2) -1;
             right = (milesUpperHalf.size()/2) + 1;
-            thirdQuartile = milesUpperHalf.get(left).getMilesAsInteger() + milesUpperHalf.get(right).getMilesAsInteger();
+            thirdQuartile = (milesUpperHalf.get(left).getMilesAsInteger() + milesUpperHalf.get(right).getMilesAsInteger()) / 2;
         } else {
             thirdQuartile = milesUpperHalf.get(milesUpperHalf.size()/2).getMilesAsInteger();
         }
 
-        return new int[] {firstQuartile,median,thirdQuartile};
+        return new int[] {min,firstQuartile,median,thirdQuartile,max};
     }
 
     public static void main(String[] args) {
