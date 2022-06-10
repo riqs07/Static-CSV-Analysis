@@ -14,6 +14,9 @@ public class StepReport {
     Map<String,Integer> carModelsMaps = new HashMap<>();
     HashMap<String, Map<String, Integer>> carLotMasterMap = new HashMap<>();
 
+    String leastExpensiveAtom = "";
+    String mostExpensiveAtom = "";
+
     ArrayList<String> atoms = new ArrayList<>();
     ArrayList<AtomReport> atomReports = new ArrayList<>();
 

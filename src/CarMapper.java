@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CarMapper {
 
@@ -230,22 +231,12 @@ public class CarMapper {
         if (count > 0) {
             // Get Price Range
             int priceRange = cars.get(count - 1).getPriceAsInteger() - cars.get(0).getPriceAsInteger();
-//
 
-            // get medians
-            if (count % 2 == 0) {
+            int[] xx = getPriceQuartiles(cars);
+            int[] yy = getMilesQuartiles(cars);
+            System.out.println(yy);
 
-                int left = (count / 2) - 1;
-                int right = (count / 2) + 1;
 
-                priceMedian = (cars.get(left).getPriceAsInteger() + cars.get(right).getPriceAsInteger()) / 2;
-                milesMedian = (cars.get(left).getPriceAsInteger() + cars.get(right).getPriceAsInteger()) / 2;
-
-            } else {
-                priceMedian = cars.get(count / 2).getPriceAsInteger();
-                milesMedian = cars.get(count / 2).getPriceAsInteger();
-
-            }
 
             // Build Report
             stats.setMilesAVG(milesSum / count);
@@ -289,6 +280,137 @@ public class CarMapper {
 
     }
 
+    public int[] getPriceQuartiles(ArrayList<Car> cars){
+        Collections.sort(cars, Comparator.comparing(Car::getPriceAsInteger));
+
+
+        int firstQuartile = 0;
+        int median = 0;
+        int thirdQuartile = 0;
+
+        int medianIndex = 0;
+
+        int count = cars.size();
+
+        List<Car> priceLowerHalf = null;
+        List<Car> priceUpperHalf = null;
+
+        int left = 0;
+        int right = 0;
+
+
+        /// SPLIT INTO 2 SUBLISTS BASED ON MEDIAN
+        if (count % 2 == 0) {
+
+            // SET L+R POINTERS
+             left = (count / 2) - 1;
+             right = (count / 2) + 1;
+
+             median = (cars.get(left).getPriceAsInteger() + cars.get(right).getPriceAsInteger()) / 2;
+             medianIndex = (left + right) / 2;
+
+             priceLowerHalf = cars.subList(0,left + 1);
+             priceUpperHalf = cars.subList(right,count);
+
+
+/// should sepearte median index from median number
+        } else {
+            medianIndex = count/2;
+            median = cars.get(medianIndex).getPriceAsInteger();
+            priceLowerHalf = cars.subList(0, medianIndex);
+            priceUpperHalf = cars.subList(medianIndex,count);
+        }
+
+        // If lower half is even
+        if (priceLowerHalf.size() % 2 == 0){
+            // Reset L+R pointers
+            left = (priceLowerHalf.size()/2) -1;
+            right = (priceLowerHalf.size()/2) + 1;
+            firstQuartile = priceLowerHalf.get(left).getPriceAsInteger() + priceLowerHalf.get(right).getPriceAsInteger();
+        } else {
+            firstQuartile = priceLowerHalf.get(priceLowerHalf.size()/2).getPriceAsInteger();
+        }
+
+        // If upper half is even
+        if (priceUpperHalf.size() % 2 == 0){
+            // Reset L+R pointers
+            left = (priceUpperHalf.size()/2) -1;
+            right = (priceUpperHalf.size()/2) + 1;
+            thirdQuartile = priceUpperHalf.get(left).getPriceAsInteger() + priceUpperHalf.get(right).getPriceAsInteger();
+        } else {
+            thirdQuartile = priceUpperHalf.get(priceUpperHalf.size()/2).getPriceAsInteger();
+        }
+
+        return new int[] {firstQuartile,median,thirdQuartile};
+    }
+
+    public int[] getMilesQuartiles(ArrayList<Car> cars){
+
+        Collections.sort(cars, Comparator.comparing(Car::getMilesAsInteger));
+
+        int firstQuartile = 0;
+        int median = 0;
+        int thirdQuartile = 0;
+
+        int medianIndex = 0;
+
+        int count = cars.size();
+
+        List<Car> milesLowerHalf = null;
+        List<Car> milesUpperHalf = null;
+
+        int left = 0;
+        int right = 0;
+
+
+        /// SPLIT INTO 2 SUBLISTS BASED ON MEDIAN
+        if (count % 2 == 0) {
+
+            // SET L+R POINTERS
+             left = (count / 2) - 1;
+             right = (count / 2) + 1;
+
+             median = (cars.get(left).getMilesAsInteger() + cars.get(right).getMilesAsInteger()) / 2;
+             medianIndex = (left + right) / 2;
+
+             milesLowerHalf = cars.subList(0,left + 1);
+             milesUpperHalf = cars.subList(right,count);
+
+
+/// should sepearte median index from median number
+        } else {
+            medianIndex = count/2;
+            median = cars.get(medianIndex).getMilesAsInteger();
+            milesLowerHalf = cars.subList(0, medianIndex);
+            milesUpperHalf = cars.subList(medianIndex,count);
+        }
+
+
+
+
+
+        // If lower half is even
+        if (milesLowerHalf.size() % 2 == 0){
+            // Reset L+R pointers
+            left = (milesLowerHalf.size()/2) -1;
+            right = (milesLowerHalf.size()/2) + 1;
+            firstQuartile = milesLowerHalf.get(left).getMilesAsInteger() + milesLowerHalf.get(right).getMilesAsInteger();
+        } else {
+            firstQuartile = milesLowerHalf.get(milesLowerHalf.size()/2).getMilesAsInteger();
+        }
+
+        // If upper half is even
+        if (milesUpperHalf.size() % 2 == 0){
+            // Reset L+R pointers
+            left = (milesUpperHalf.size()/2) -1;
+            right = (milesUpperHalf.size()/2) + 1;
+            thirdQuartile = milesUpperHalf.get(left).getMilesAsInteger() + milesUpperHalf.get(right).getMilesAsInteger();
+        } else {
+            thirdQuartile = milesUpperHalf.get(milesUpperHalf.size()/2).getMilesAsInteger();
+        }
+
+        return new int[] {firstQuartile,median,thirdQuartile};
+    }
 
     public static void main(String[] args) {
 
