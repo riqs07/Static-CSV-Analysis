@@ -6,8 +6,40 @@ public class AtomReport {
     String name;
     int count =0;
 
-    int priceAVG =0 , priceSUM =0, priceMedian = 0, priceRange = 0, price1stQuartile = 0, price3rdQuartile;
+    int priceAVG =0 , priceSUM =0, priceMedian = 0, priceRange = 0, price1stQuartile = 0, price3rdQuartile = 0;
     int milesAVG =0, milesSUM =0, milesMedian = 0, milesRange = 0, miles1stQuartile = 0, miles3rdQuartile = 0;
+
+    public int getPrice1stQuartile() {
+        return price1stQuartile;
+    }
+
+    public void setPrice1stQuartile(int price1stQuartile) {
+        this.price1stQuartile = price1stQuartile;
+    }
+
+    public int getPrice3rdQuartile() {
+        return price3rdQuartile;
+    }
+
+    public void setPrice3rdQuartile(int price3rdQuartile) {
+        this.price3rdQuartile = price3rdQuartile;
+    }
+
+    public int getMiles1stQuartile() {
+        return miles1stQuartile;
+    }
+
+    public void setMiles1stQuartile(int miles1stQuartile) {
+        this.miles1stQuartile = miles1stQuartile;
+    }
+
+    public int getMiles3rdQuartile() {
+        return miles3rdQuartile;
+    }
+
+    public void setMiles3rdQuartile(int miles3rdQuartile) {
+        this.miles3rdQuartile = miles3rdQuartile;
+    }
 
     double priceDeviation =0 , milesDeviation =0;
     int minPrice = 0, maxPrice =0;

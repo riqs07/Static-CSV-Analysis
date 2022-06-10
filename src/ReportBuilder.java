@@ -1,9 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.summingInt;
@@ -169,6 +167,8 @@ public class ReportBuilder implements CSVReader {
         int count = 0;
         int priceTotal = 0;
         int milesTotal = 0;
+        double priceDeviation = 0;
+
 
         // list of nested hashmaps
         ArrayList<HashMap<String ,Map<String,Integer>>> carLotsList = new ArrayList();
@@ -191,9 +191,13 @@ public class ReportBuilder implements CSVReader {
         carMakesList.add(atomReport.getCarMakesMap());
         carModelsList.add(atomReport.getCarModelsMap());
 
+        // Needs Testing just took logic from atom report
+        priceDeviation += Math.pow(atomReport.getLotValue() - (priceTotal / count), 2);
     }
 
-        // Merge Maps
+
+        // Deviation of Price ? Feel like Miles deviation is not really that useful
+        priceDeviation = Math.sqrt(priceDeviation / count);
 
 
     // LOOK MORE INTO STREAMS AND MEETHODS
@@ -224,6 +228,24 @@ public class ReportBuilder implements CSVReader {
 
         stepReport.setCarMakesMaps(carMakesMasterMap);
         stepReport.setCarModelsMaps(carModelsMasterMap);
+
+
+        /// idk if this is efficiant or if its better to grab the report object and then get the info like that
+        // or even just save them in seperate variable instead of saving it inside of a map
+
+
+        stepReport.setLeastExpensiveAtom(Map.of(
+                Collections.min(atomReports, Comparator.comparing(AtomReport::getLotValue)).getName(),Collections.min(atomReports, Comparator.comparing(AtomReport::getLotValue)).getLotValue()
+        ));
+
+        stepReport.setMostExpensiveAtom(
+                Map.of( Collections.max(atomReports, Comparator.comparing(AtomReport::getLotValue)).getName(),Collections.max(atomReports, Comparator.comparing(AtomReport::getLotValue)).getLotValue()
+        ));
+
+
+     stepReport.setPriceDeviation(priceDeviation);
+
+
     } else {
         stepReport.setPriceAVG(priceTotal/1);
         stepReport.setMilesAVG(milesTotal/1);

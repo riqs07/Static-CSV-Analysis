@@ -116,6 +116,8 @@ public class CarMapper {
 
         Integer priceSum = 0, milesSum = 0, count = 0;
         double priceDeviation = 0, milesDeviation = 0;
+
+        /// since i am getting it in the quartiles method IDK if i still need to declare them right here
         int priceMedian = 0, priceMin= 0, priceMax = 0;
         int milesMedian = 0 ,milesMin = 0, milesMax = 0;
 
@@ -230,15 +232,9 @@ public class CarMapper {
         // Build Report
         if (count > 0) {
             // Get Price Range
-            int priceRange = cars.get(count - 1).getPriceAsInteger() - cars.get(0).getPriceAsInteger();
 
-            int[] xx = getPriceQuartiles(cars);
-            int[] yy = getMilesQuartiles(cars);
-            System.out.println(yy);
-            System.out.println(xx);
-            System.out.println("wack niggas only");
-
-
+            int[] priceQuartiles = getPriceQuartiles(cars);
+            int[] milesQuartiles = getMilesQuartiles(cars);
 
             // Build Report
             stats.setMilesAVG(milesSum / count);
@@ -248,9 +244,8 @@ public class CarMapper {
             stats.setPriceSUM(priceSum);
             stats.setMilesDeviation(milesDeviation);
             stats.setPriceDeviation(priceDeviation);
-            stats.setPriceRange(priceRange);
-//            stats.setPriceMedian(priceMedian);
-//            stats.setMilesMedian(milesMedian);
+
+
             stats.setLotValue(priceSum);
             stats.setCarLotMap(carLotMap);
 
@@ -258,21 +253,25 @@ public class CarMapper {
             stats.setCarModelsMap(carModelsMap);
 
 
-            stats.setMaxPrice(cars.get(cars.size() - 1).getPriceAsInteger());
-            stats.setMinPrice(cars.get(0).getPriceAsInteger());
+            // NOt sure if i want to keep its "cleaner" but less desciprtive
+            // maybe in the fewtch i will set min and max to the variable i declard but IDK for right now
+            stats.setMinPrice(priceQuartiles[0]);
+            stats.setPrice1stQuartile(priceQuartiles[1]);
+            stats.setPriceMedian(priceQuartiles[2]);
+            stats.setPrice3rdQuartile(priceQuartiles[3]);
+            stats.setMaxPrice(priceQuartiles[4]);
+            int priceRange = priceQuartiles[4]- priceQuartiles[0];
 
 
+            stats.setMinMiles(milesQuartiles[0]);
+            stats.setMiles1stQuartile(milesQuartiles[1]);
+            stats.setMilesMedian(milesQuartiles[2]);
+            stats.setMiles3rdQuartile(milesQuartiles[3]);
+            stats.setMaxMiles(milesQuartiles[4]);
+            int milesRange = milesQuartiles[4]- milesQuartiles[0];
 
-            // Sort by Miles i feel like theres better way to do this but oh well for now
-            /// Cars is currently soreted by price can grab 1st and last elements
-            // then just sort and do the same for miles
 
-            Collections.sort(cars, Comparator.comparing(Car::getMilesAsInteger));
-            stats.setMaxMiles(cars.get(cars.size() -1).getMilesAsInteger());
-            stats.setMinMiles(cars.get(0).getMilesAsInteger());
-
-            int milesRange = cars.get(count - 1).getMilesAsInteger() - cars.get(0).getMilesAsInteger();
-
+            stats.setPriceRange(priceRange);
             stats.setMilesRange(milesRange);
 
 

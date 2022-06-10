@@ -9,13 +9,40 @@ public class StepReport {
     int priceAVG;
     int stepTotalValue;
 
+    public double getPriceDeviation() {
+        return priceDeviation;
+    }
 
-    Map<String,Integer> carMakesMaps = new HashMap<>();
-    Map<String,Integer> carModelsMaps = new HashMap<>();
+    public void setPriceDeviation(double priceDeviation) {
+        this.priceDeviation = priceDeviation;
+    }
+
+    double priceDeviation = 0;
+
+
+    Map<String, Integer> carMakesMaps = new HashMap<>();
+    Map<String, Integer> carModelsMaps = new HashMap<>();
     HashMap<String, Map<String, Integer>> carLotMasterMap = new HashMap<>();
 
-    String leastExpensiveAtom = "";
-    String mostExpensiveAtom = "";
+    Map<String, Integer> leastExpensiveAtom = new HashMap<>();
+
+    public Map<String, Integer> getLeastExpensiveAtom() {
+        return leastExpensiveAtom;
+    }
+
+    public void setLeastExpensiveAtom(Map<String, Integer> leastExpensiveAtom) {
+        this.leastExpensiveAtom = leastExpensiveAtom;
+    }
+
+    public Map<String, Integer> getMostExpensiveAtom() {
+        return mostExpensiveAtom;
+    }
+
+    public void setMostExpensiveAtom(Map<String, Integer> mostExpensiveAtom) {
+        this.mostExpensiveAtom = mostExpensiveAtom;
+    }
+
+    Map<String, Integer> mostExpensiveAtom = new HashMap<>();
 
     ArrayList<String> atoms = new ArrayList<>();
     ArrayList<AtomReport> atomReports = new ArrayList<>();
@@ -28,8 +55,6 @@ public class StepReport {
     public void setCarMakesMaps(Map<String, Integer> carMakesMaps) {
         this.carMakesMaps = carMakesMaps;
     }
-
-
 
 
     public Map<String, Integer> getCarModelsMaps() {
@@ -62,7 +87,6 @@ public class StepReport {
     public void setAtomReports(ArrayList<AtomReport> atomReports) {
         this.atomReports = atomReports;
     }
-
 
 
     // total count, "avg car"
