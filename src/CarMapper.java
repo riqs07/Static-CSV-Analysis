@@ -333,6 +333,14 @@ public class CarMapper {
             // Reset L+R pointers
             left = (priceLowerHalf.size()/2) -1;
             right = (priceLowerHalf.size()/2) + 1;
+            System.out.println(left);
+            System.out.println(right);
+
+
+            // OK so the issue occurs if i dont have neough cars in the lot. this one threw an error at 4 cars
+            // prob need exception handling all thru application
+            // current minumum to not break is 7
+            // prbably to do with the way i have the algo splitting it in half
             firstQuartile = (priceLowerHalf.get(left).getPriceAsInteger() + priceLowerHalf.get(right).getPriceAsInteger()) / 2;
         } else {
             // 1st quartile rounds down needs fixing --> integer division

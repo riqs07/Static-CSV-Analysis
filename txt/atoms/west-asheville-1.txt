@@ -1,4 +1,7 @@
 honda,accord,2005,200000,4000
-ford,mustang,2020,100,26000
-bmw,i3,2022,0,70000
-honda,civic,2010,150000,6000
+honda,accord,2005,200000,4000
+honda,accord,2005,200000,4000
+honda,accord,2005,200000,4000
+honda,accord,2005,200000,4000
+honda,accord,2005,200000,4000
+honda,accord,2005,200000,4000

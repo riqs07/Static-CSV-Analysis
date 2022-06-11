@@ -131,7 +131,7 @@ public class ReportBuilder implements CSVReader {
 
     public AtomReport getAtomReport(String atom, CarMapper carMapper) throws IOException {
 
-//        System.out.println(">> (A) " + atom);
+        System.out.println(">> (A) " + atom);
 
         AtomReport report = new AtomReport();
 
@@ -177,7 +177,7 @@ public class ReportBuilder implements CSVReader {
 
         StepReport stepReport = new StepReport();
 
-    for (AtomReport atomReport : atomReports){
+    for (AtomReport atomReport : atomReports) {
 
         count += atomReport.getCount();
         priceTotal += atomReport.getPriceSUM();
@@ -192,9 +192,12 @@ public class ReportBuilder implements CSVReader {
         carModelsList.add(atomReport.getCarModelsMap());
 
         // Needs Testing just took logic from atom report
-        priceDeviation += Math.pow(atomReport.getLotValue() - (priceTotal / count), 2);
+        // once again need away to pass over blank files
+        // prob need to be in the actually file reader part
+        if (count > 0) {
+            priceDeviation += Math.pow(atomReport.getLotValue() - (priceTotal / count), 2);
+        }
     }
-
 
         // Deviation of Price ? Feel like Miles deviation is not really that useful
         priceDeviation = Math.sqrt(priceDeviation / count);
@@ -271,7 +274,6 @@ public class ReportBuilder implements CSVReader {
             count += stepReport.getCount();
             priceTotal += stepReport.getPriceAVG();
             milesTotal += stepReport.getMilesAVG();
-
 
             routineReport.steps.add(stepReport.name);
             routineReport.atoms.addAll(stepReport.getAtoms());

@@ -6,10 +6,37 @@ import java.util.Map;
 public class RoutineReport {
 
     String name;
+
+    int amountOfAtoms = 0;
+    int amountOfSteps = 0;
+
+    int count;
+    int priceAVG;
+    int milesAVG;
+
     ArrayList<String> steps = new ArrayList<>();
     ArrayList<String> atoms = new ArrayList<>();
 
     Map<String,Integer> carMakesMaps = new HashMap<>();
+
+    Map<String, Integer> leastExpensiveAtom = new HashMap<>();
+    Map<String, Integer> mostExpensiveAtom = new HashMap<>();
+
+    Map<String, Integer> mostPopulatedStep = new HashMap<>();
+    Map<String, Integer> leastPopulatedStep = new HashMap<>();
+
+    Map<String, Integer> mostPopularCar = new HashMap<>();
+    Map<String, Integer> leastPopularCar = new HashMap<>();
+
+    Map<String, Integer> mostPopularMaker = new HashMap<>();
+    Map<String, Integer> leastPopularMaker  = new HashMap<>();
+
+
+
+    Map<String,Integer> carModelsMaps = new HashMap<>();
+    HashMap<String, Map<String, Integer>> carLotMasterMap = new HashMap<>();
+
+
 
     public ArrayList<String> getAtoms() {
         return atoms;
@@ -59,52 +86,6 @@ public class RoutineReport {
         this.amountOfSteps = amountOfSteps;
     }
 
-    public String getMostExpensiveStep() {
-        return mostExpensiveStep;
-    }
-
-    public void setMostExpensiveStep(String mostExpensiveStep) {
-        this.mostExpensiveStep = mostExpensiveStep;
-    }
-
-    public String getLeastExpensiveStep() {
-        return leastExpensiveStep;
-    }
-
-    public void setLeastExpensiveStep(String leastExpensiveStep) {
-        this.leastExpensiveStep = leastExpensiveStep;
-    }
-
-    public String getMostPopulatedStep() {
-        return mostPopulatedStep;
-    }
-
-    public void setMostPopulatedStep(String mostPopulatedStep) {
-        this.mostPopulatedStep = mostPopulatedStep;
-    }
-
-    public String getLeastPopulatedStep() {
-        return leastPopulatedStep;
-    }
-
-    public void setLeastPopulatedStep(String leastPopulatedStep) {
-        this.leastPopulatedStep = leastPopulatedStep;
-    }
-
-    Map<String,Integer> carModelsMaps = new HashMap<>();
-    HashMap<String, Map<String, Integer>> carLotMasterMap = new HashMap<>();
-
-    int amountOfAtoms = 0;
-    int amountOfSteps = 0;
-
-    int count;
-    int priceAVG;
-    int milesAVG;
-
-    String mostExpensiveStep = "";
-    String leastExpensiveStep = "";
-    String mostPopulatedStep = "";
-    String leastPopulatedStep = "";
 
     public int getTotalRoutineValue() {
         return totalRoutineValue;
@@ -158,9 +139,5 @@ public class RoutineReport {
 
     public RoutineReport() {
     }
-    // north carolina
-    // vehicle count
-    // avg
-    // can even get fancy in the future and find like most popular stores
-    // et
+
 }

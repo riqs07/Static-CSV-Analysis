@@ -9,6 +9,29 @@ public class StepReport {
     int priceAVG;
     int stepTotalValue;
 
+    double priceDeviation = 0;
+
+
+    ArrayList<String> atoms = new ArrayList<>();
+    ArrayList<AtomReport> atomReports = new ArrayList<>();
+
+    Map<String, Integer> carMakesMaps = new HashMap<>();
+    Map<String, Integer> carModelsMaps = new HashMap<>();
+
+
+    HashMap<String, Map<String, Integer>> carLotMasterMap = new HashMap<>();
+
+    Map<String, Integer> leastExpensiveAtom = new HashMap<>();
+    Map<String, Integer> mostExpensiveAtom = new HashMap<>();
+
+    Map<String, Integer> mostPopularCar = new HashMap<>();
+    Map<String, Integer> leastPopularCar = new HashMap<>();
+
+    Map<String, Integer> mostPopularMaker = new HashMap<>();
+    Map<String, Integer> leastPopularMaker  = new HashMap<>();
+
+
+
     public double getPriceDeviation() {
         return priceDeviation;
     }
@@ -16,15 +39,6 @@ public class StepReport {
     public void setPriceDeviation(double priceDeviation) {
         this.priceDeviation = priceDeviation;
     }
-
-    double priceDeviation = 0;
-
-
-    Map<String, Integer> carMakesMaps = new HashMap<>();
-    Map<String, Integer> carModelsMaps = new HashMap<>();
-    HashMap<String, Map<String, Integer>> carLotMasterMap = new HashMap<>();
-
-    Map<String, Integer> leastExpensiveAtom = new HashMap<>();
 
     public Map<String, Integer> getLeastExpensiveAtom() {
         return leastExpensiveAtom;
@@ -41,11 +55,6 @@ public class StepReport {
     public void setMostExpensiveAtom(Map<String, Integer> mostExpensiveAtom) {
         this.mostExpensiveAtom = mostExpensiveAtom;
     }
-
-    Map<String, Integer> mostExpensiveAtom = new HashMap<>();
-
-    ArrayList<String> atoms = new ArrayList<>();
-    ArrayList<AtomReport> atomReports = new ArrayList<>();
 
 
     public Map<String, Integer> getCarMakesMaps() {
@@ -65,13 +74,6 @@ public class StepReport {
         this.carModelsMaps = carModelsMaps;
     }
 
-    // probably just want the aggragrate on the step reoprt
-    // i mean i guess i can attach the maps as well but still
-    // they dont need to be a list here
-    // list can just be used inside of the method to help with the aggregate
-    // esp considering that i am attaching the atom report
-
-
     public int getStepTotalValue() {
         return stepTotalValue;
     }
@@ -88,10 +90,6 @@ public class StepReport {
         this.atomReports = atomReports;
     }
 
-
-    // total count, "avg car"
-    // list of atom report
-    // combine the maps into one
 
     @Override
     public String toString() {
