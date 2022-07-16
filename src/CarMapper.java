@@ -115,6 +115,8 @@ public class CarMapper {
 
         AtomReport stats = new AtomReport();
 
+        stats.setCars(cars);
+
         Integer priceSum = 0, milesSum = 0, count = 0;
         double priceDeviation = 0, milesDeviation = 0;
 
@@ -232,6 +234,15 @@ public class CarMapper {
 
         // prob need to find a better way to skip empty files
         // Build Report
+
+
+
+        // Set At a glance stats for atom level
+//        Collections.sort(cars, Comparator.comparing(Car::getPriceAsInteger));
+
+
+
+
         if (count > 0) {
             // Get Price Range
 
@@ -305,8 +316,6 @@ public class CarMapper {
         Map<String, Integer> mostExpensiveCar = new HashMap<>();
 
         mostExpensiveCar.put(cars.get(cars.size() -1).getMake() + " "  + cars.get(cars.size() -1).getModel(), max);
-
-
 
 
 

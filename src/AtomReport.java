@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +11,17 @@ public class AtomReport {
     int milesAVG =0, milesSUM =0, milesMedian = 0, milesRange = 0, miles1stQuartile = 0, miles3rdQuartile = 0;
 
 
+    public ArrayList<Car> getCars() {
+        return Cars;
+    }
+
+    public void setCars(ArrayList<Car> cars) {
+        Cars = cars;
+    }
+
+    ArrayList<Car> Cars = new ArrayList<>();
     Map<String, Integer> leastExpensiveCar = new HashMap<>();
+
     Map<String, Integer> mostExpensiveCar = new HashMap<>();
 
     Map<String, Integer> mostPopularModel = new HashMap<>();
@@ -18,6 +29,53 @@ public class AtomReport {
 
     Map<String, Integer> mostPopularMaker = new HashMap<>();
     Map<String, Integer> leastPopularMaker  = new HashMap<>();
+    public Map<String, Integer> getLeastExpensiveCar() {
+        return leastExpensiveCar;
+    }
+
+    public void setLeastExpensiveCar(Map<String, Integer> leastExpensiveCar) {
+        this.leastExpensiveCar = leastExpensiveCar;
+    }
+
+    public Map<String, Integer> getMostExpensiveCar() {
+        return mostExpensiveCar;
+    }
+
+    public void setMostExpensiveCar(Map<String, Integer> mostExpensiveCar) {
+        this.mostExpensiveCar = mostExpensiveCar;
+    }
+
+    public Map<String, Integer> getMostPopularModel() {
+        return mostPopularModel;
+    }
+
+    public void setMostPopularModel(Map<String, Integer> mostPopularModel) {
+        this.mostPopularModel = mostPopularModel;
+    }
+
+    public Map<String, Integer> getLeastPopularModel() {
+        return leastPopularModel;
+    }
+
+    public void setLeastPopularModel(Map<String, Integer> leastPopularModel) {
+        this.leastPopularModel = leastPopularModel;
+    }
+
+    public Map<String, Integer> getMostPopularMaker() {
+        return mostPopularMaker;
+    }
+
+    public void setMostPopularMaker(Map<String, Integer> mostPopularMaker) {
+        this.mostPopularMaker = mostPopularMaker;
+    }
+
+    public Map<String, Integer> getLeastPopularMaker() {
+        return leastPopularMaker;
+    }
+
+    public void setLeastPopularMaker(Map<String, Integer> leastPopularMaker) {
+        this.leastPopularMaker = leastPopularMaker;
+    }
 
     public int getPrice1stQuartile() {
         return price1stQuartile;
