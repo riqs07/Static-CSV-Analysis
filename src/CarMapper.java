@@ -12,7 +12,7 @@ public class CarMapper {
         /// Map them to java car objects
         /// then read + output just car objects
 
-        String file = fitlepath;
+        String file = filepath;
 
         // Init Reader Object
         BufferedReader reader = null;
