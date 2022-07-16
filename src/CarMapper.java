@@ -11,9 +11,8 @@ public class CarMapper {
         /// Read CSV File
         /// Map them to java car objects
         /// then read + output just car objects
-        System.out.println("Mac Test");
 
-        String file = filepath;
+        String file = fitlepath;
 
         // Init Reader Object
         BufferedReader reader = null;
