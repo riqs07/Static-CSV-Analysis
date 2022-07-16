@@ -14,16 +14,35 @@ public class RoutineReport {
     int priceAVG;
     int milesAVG;
 
-    ArrayList<String> steps = new ArrayList<>();
+    int totalRoutineValue;
+    int totalMilesValue;
+
     ArrayList<String> atoms = new ArrayList<>();
 
-    Map<String,Integer> carMakesMaps = new HashMap<>();
+    public ArrayList<StepReport> getStepReports() {
+        return stepReports;
+    }
 
-    Map<String, Integer> leastExpensiveAtom = new HashMap<>();
-    Map<String, Integer> mostExpensiveAtom = new HashMap<>();
+    public void setStepReports(ArrayList<StepReport> stepReports) {
+        this.stepReports = stepReports;
+    }
+
+    ArrayList<String> steps = new ArrayList<>();
+    ArrayList<StepReport> stepReports = new ArrayList<>();
+
+    Map<String,Integer> carMakesMaps = new HashMap<>();
+    Map<String,Integer> carModelsMaps = new HashMap<>();
+    HashMap<String, Map<String, Integer>> carLotMasterMap = new HashMap<>();
+
+    // can prob also have a method that gets least and most popular cars from the maps
+    // should i add step reports here?
 
     Map<String, Integer> mostPopulatedStep = new HashMap<>();
     Map<String, Integer> leastPopulatedStep = new HashMap<>();
+
+
+    Map<String, Integer> leastExpensiveAtom = new HashMap<>();
+    Map<String, Integer> mostExpensiveAtom = new HashMap<>();
 
     Map<String, Integer> mostPopularCar = new HashMap<>();
     Map<String, Integer> leastPopularCar = new HashMap<>();
@@ -31,12 +50,82 @@ public class RoutineReport {
     Map<String, Integer> mostPopularMaker = new HashMap<>();
     Map<String, Integer> leastPopularMaker  = new HashMap<>();
 
+    // prob to get the most least
+    // i can jsut cycle and yknow set minmax outside loop and then reset whenever x is lower than min and when x is higher than max
 
 
-    Map<String,Integer> carModelsMaps = new HashMap<>();
-    HashMap<String, Map<String, Integer>> carLotMasterMap = new HashMap<>();
 
+    public int getTotalMilesValue() {
+        return totalMilesValue;
+    }
 
+    public void setTotalMilesValue(int totalMilesValue) {
+        this.totalMilesValue = totalMilesValue;
+    }
+
+    public Map<String, Integer> getLeastExpensiveAtom() {
+        return leastExpensiveAtom;
+    }
+
+    public void setLeastExpensiveAtom(Map<String, Integer> leastExpensiveAtom) {
+        this.leastExpensiveAtom = leastExpensiveAtom;
+    }
+
+    public Map<String, Integer> getMostExpensiveAtom() {
+        return mostExpensiveAtom;
+    }
+
+    public void setMostExpensiveAtom(Map<String, Integer> mostExpensiveAtom) {
+        this.mostExpensiveAtom = mostExpensiveAtom;
+    }
+
+    public Map<String, Integer> getMostPopulatedStep() {
+        return mostPopulatedStep;
+    }
+
+    public void setMostPopulatedStep(Map<String, Integer> mostPopulatedStep) {
+        this.mostPopulatedStep = mostPopulatedStep;
+    }
+
+    public Map<String, Integer> getLeastPopulatedStep() {
+        return leastPopulatedStep;
+    }
+
+    public void setLeastPopulatedStep(Map<String, Integer> leastPopulatedStep) {
+        this.leastPopulatedStep = leastPopulatedStep;
+    }
+
+    public Map<String, Integer> getMostPopularCar() {
+        return mostPopularCar;
+    }
+
+    public void setMostPopularCar(Map<String, Integer> mostPopularCar) {
+        this.mostPopularCar = mostPopularCar;
+    }
+
+    public Map<String, Integer> getLeastPopularCar() {
+        return leastPopularCar;
+    }
+
+    public void setLeastPopularCar(Map<String, Integer> leastPopularCar) {
+        this.leastPopularCar = leastPopularCar;
+    }
+
+    public Map<String, Integer> getMostPopularMaker() {
+        return mostPopularMaker;
+    }
+
+    public void setMostPopularMaker(Map<String, Integer> mostPopularMaker) {
+        this.mostPopularMaker = mostPopularMaker;
+    }
+
+    public Map<String, Integer> getLeastPopularMaker() {
+        return leastPopularMaker;
+    }
+
+    public void setLeastPopularMaker(Map<String, Integer> leastPopularMaker) {
+        this.leastPopularMaker = leastPopularMaker;
+    }
 
     public ArrayList<String> getAtoms() {
         return atoms;
@@ -94,8 +183,6 @@ public class RoutineReport {
     public void setTotalRoutineValue(int totalRoutineValue) {
         this.totalRoutineValue = totalRoutineValue;
     }
-
-    int totalRoutineValue;
 
     public String getName() {
         return name;

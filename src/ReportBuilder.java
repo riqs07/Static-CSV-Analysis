@@ -277,6 +277,7 @@ public class ReportBuilder implements CSVReader {
 
             routineReport.steps.add(stepReport.name);
             routineReport.atoms.addAll(stepReport.getAtoms());
+            routineReport.stepReports.add(stepReport);
 
 
 //            carLotsList.add(atomReport.getCarLotMap());
@@ -303,8 +304,11 @@ public class ReportBuilder implements CSVReader {
         routineReport.setMilesAVG(milesTotal/stepReports.size());
         routineReport.setPriceAVG(priceTotal/stepReports.size());
         routineReport.setTotalRoutineValue(priceTotal);
-        //
+        routineReport.setTotalMilesValue(milesTotal);
 
+
+        routineReport.setAmountOfAtoms(routineReport.atoms.size());
+        routineReport.setAmountOfSteps(routineReport.steps.size());
 
         return routineReport;
 

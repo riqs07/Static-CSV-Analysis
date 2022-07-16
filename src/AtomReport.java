@@ -9,6 +9,16 @@ public class AtomReport {
     int priceAVG =0 , priceSUM =0, priceMedian = 0, priceRange = 0, price1stQuartile = 0, price3rdQuartile = 0;
     int milesAVG =0, milesSUM =0, milesMedian = 0, milesRange = 0, miles1stQuartile = 0, miles3rdQuartile = 0;
 
+
+    Map<String, Integer> leastExpensiveCar = new HashMap<>();
+    Map<String, Integer> mostExpensiveCar = new HashMap<>();
+
+    Map<String, Integer> mostPopularModel = new HashMap<>();
+    Map<String, Integer> leastPopularModel = new HashMap<>();
+
+    Map<String, Integer> mostPopularMaker = new HashMap<>();
+    Map<String, Integer> leastPopularMaker  = new HashMap<>();
+
     public int getPrice1stQuartile() {
         return price1stQuartile;
     }

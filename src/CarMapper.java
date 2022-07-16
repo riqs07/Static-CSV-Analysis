@@ -111,6 +111,7 @@ public class CarMapper {
     public AtomReport analyzeAtom(ArrayList<Car> cars) {
         // i mean i guess i canp ull the analysis intto seperate funcs but this is ok for now
         // 6-5 OKAY OFFICALY THIS METHOD IS WAY TO HUGE NEEDS REFREACTOR
+        // ayo
 
         AtomReport stats = new AtomReport();
 
@@ -137,6 +138,7 @@ public class CarMapper {
 
             String currentCarMake = car.getMake();
             String currentCarModel = car.getModel();
+
 
 
             // Car Map
@@ -290,6 +292,26 @@ public class CarMapper {
         int min = cars.get(0).getPriceAsInteger();
 
         int max = cars.get(cars.size() -1).getPriceAsInteger();
+
+
+        /// need a way to bubble up but this is the logic
+        /// can prob grab actual car object and then use that to replace the constant car.get()
+        // even tho it dosent provide valueable info
+        // dont see reason why to not repeat this logic for the mles as well
+        Map<String, Integer> leastExpensiveCar = new HashMap<>();
+
+        leastExpensiveCar.put(cars.get(0).getMake() + " "  + cars.get(0).getModel(), min);
+
+        Map<String, Integer> mostExpensiveCar = new HashMap<>();
+
+        mostExpensiveCar.put(cars.get(cars.size() -1).getMake() + " "  + cars.get(cars.size() -1).getModel(), max);
+
+
+
+
+
+
+
         int firstQuartile = 0;
         int median = 0;
         int thirdQuartile = 0;
@@ -333,9 +355,6 @@ public class CarMapper {
             // Reset L+R pointers
             left = (priceLowerHalf.size()/2) -1;
             right = (priceLowerHalf.size()/2) + 1;
-            System.out.println(left);
-            System.out.println(right);
-
 
             // OK so the issue occurs if i dont have neough cars in the lot. this one threw an error at 4 cars
             // prob need exception handling all thru application

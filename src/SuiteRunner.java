@@ -60,6 +60,7 @@ public class SuiteRunner {
 
             routineReport = fileReader.getRoutineReport(stepReports);
 
+            // why is this here????/
             stepReports.removeAll(stepReports);
 
             routineReport.setName(routine);
@@ -70,8 +71,9 @@ public class SuiteRunner {
 
         System.out.println("Would you like to view the report in the console, in the browser, or build a XML file?");
 
-        System.out.println(suiteReport.get(0).getName() + " has " + suiteReport.get(0).getCount() + " cars. The avg price being " + suiteReport.get(0).getPriceAVG());
+        System.out.println(suiteReport.get(1).getName() + " has " + suiteReport.get(1).getCount() + " cars. The avg price being " + suiteReport.get(0).getPriceAVG());
 
+        System.out.println(suiteReport);
     }
 
 
